@@ -11,15 +11,36 @@ Requirements
 Role Variables
 --------------
 
-Name | Default value | Possible values | Purpose
-`dp__upstream_ports` | none, must be set | <pre lang="yaml">
+<table>
+<tr>
+  <th>Name</th>
+  <th>Default value</th>
+  <th>Possible values</th>
+  <th>Purpose</th>
+</tr>
+<tr>
+  <td>`dp__upstream_ports`</td>
+  <td>none, must be set</td>
+  <td>
+    <pre lang="yaml">
 dp__upstream_ports:
   - port: 1234
   - port: 4567
   - port: 8900
   ...
-</pre> | Ports for the services to put behind the proxy. These ports must be bound to localhost (at least)
-`dp__https_enable` | `true` | `true` or `false` | Enable or disable HTTPS
+    </pre>
+  </td>
+  <td>
+    Ports for the services to put behind the proxy. These ports must be bound to localhost (at least)
+  </td>
+</tr>
+<tr>
+  <td>`dp__https_enable`</td>
+  <td>`true`</td>
+  <td>`true` or `false`</td>
+  <td>Enable or disable HTTPS</td>
+</tr>
+</table>
 
 Dependencies
 ------------
