@@ -1,23 +1,25 @@
-Role Name
+Docker Proxy
 =========
 
-A brief description of the role goes here.
+Reverse proxy in a Docker container to streamline services and easily setup HTTPS.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should
-be mentioned here. For instance, if the role uses the EC2 module, it may be a
-good idea to mention in this section that the boto package is required.
+- Docker
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including
-any variables that are in defaults/main.yml, vars/main.yml, and any variables
-that can/should be set via parameters to the role. Any variables that are read
-from other roles and/or the global scope (ie. hostvars, group vars, etc.) should
-be mentioned here as well.
+Name | Default value | Possible values | Purpose
+`dp__upstream_ports` | none, must be set | <pre lang="yaml">
+dp__upstream_ports:
+  - port: 1234
+  - port: 4567
+  - port: 8900
+  ...
+</pre> | Ports for the services to put behind the proxy. These ports must be bound to localhost (at least)
+`dp__https_enable` | `true` | `true` or `false` | Enable or disable HTTPS
 
 Dependencies
 ------------
