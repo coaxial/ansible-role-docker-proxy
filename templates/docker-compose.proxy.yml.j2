@@ -1,0 +1,13 @@
+---
+version: '3'
+services:
+  {{ item.svc_name }}:
+    environment:
+      - VIRTUAL_HOST={{ item.vhost }}
+      - VIRTUAL_PORT={{ item.port }}
+    networks:
+      - {{ dp__network_name }}
+      - default
+networks:
+  upstreams:
+    external: true

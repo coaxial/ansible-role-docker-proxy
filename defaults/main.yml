@@ -1,2 +1,4 @@
 ---
 dp__https_enable: true
+dp__network_name: upstreams
+dp__ipv6_enable: true

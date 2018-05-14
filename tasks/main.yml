@@ -1,31 +1,55 @@
 ---
-- name: Install necessary packages
+- name: Install iptables-persistent
   package:
-    name: "{{ item.name }}"
+    name: iptables-persistent
     state: present
-  with_items:
-    - name: ufw
 
 - name: Close upstream ports
-  ufw:
-    rule: deny
-    port: "{{ item.port }}"
-  with_items: "{{ dp__upstream_ports }}"
+  iptables:
+    action: insert
+    chain: DOCKER-USER
+    protocol: tcp
+    in_interface: "{{ ansible_default_ipv4.interface }}"
+    destination_port: "{{ item.port }}"
+    jump: DROP
+  notify: persist iptables
+  with_items: "{{ dp__upstream }}"
 
-- name: Open http port
-  ufw:
-    rule: allow
-    port: 80
-    proto: tcp
-
-- name: Open https port
-  ufw:
-    rule: allow
-    port: 443
-    proto: tcp
-  when: dp__https_enable
-
-- name: Create nginx-proxy docker network
+- name: Create the upstream network
   docker_network:
-    name: nginx-proxy
+    name: "{{ dp__network_name }}"
 
+- name: Add upstream apps to network
+  template:
+    src: templates/docker-compose.proxy.yml.j2
+    dest: "{{ item.project_src }}/docker-compose.proxy.yml"
+    mode: '0400'
+    owner: root
+    group: root
+  with_items: "{{ dp__upstream }}"
+
+- name: Restart upstream services with extended config
+  docker_service:
+    project_src: "{{ item.project_src }}"
+    services: "{{ item.svc_name }}"
+    files:
+      - "{{ item.doco | default('docker-compose.yml')}}"
+      - docker-compose.proxy.yml
+    # attach to new upstreams network
+    recreate: always
+  with_items: "{{ dp__upstream }}"
+
+- name: Start proxy service
+  docker_container:
+    image: jwilder/nginx-proxy
+    name: nginx-proxy
+    env:
+      ENABLE_IPV6: "{{ dp__ipv6_enable }}"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    ports:
+      - "80:80"
+    restart_policy: always
+    networks:
+      - name: "{{ dp__network_name }}"
+    state: started

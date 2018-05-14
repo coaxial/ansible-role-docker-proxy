@@ -11,19 +11,28 @@ Requirements
 Role Variables
 --------------
 
-### `dp__upstream_ports`
+### `dp__upstream`
 #### Default value
 none, must be set
-#### Possible values
+#### Possible values/example
 ```yaml
-dp__upstream_ports:
-  - port: 1234
+dp__upstream:
+  - port: 1234  # port the upstream webserver exposes
+    svc_name: nginx  # name for the webserver service in the original compose file
+    project_src: /opt/docker-app1/  # location for the original compose file on the host
+    vhost: app1.example.org  # subdomain you want the service accessible from
+    default_net: true  # attach svc_name to the default docker-compose network as well (cf. https://docs.docker.com/compose/networking/#configure-the-default-network), defaults to false
+    doco: docker-compose.prod.yml  # docker-compose.yml filename, defaults to docker-compose.yml (optional)
   - port: 4567
+    svc_name: webserver
+    project_src: /opt/docker-app2/
   - port: 8900
+    svc_name: app3
+    project_src: /opt/docker-app3/
   ...
 ```
 #### Purpose
-Ports for the services to put behind the proxy. These ports must be bound to localhost (at least)
+Describes the services to put behind the proxy, and how to access them.
 
 ### `dp__https_enable`
 #### Default value
@@ -32,6 +41,14 @@ Ports for the services to put behind the proxy. These ports must be bound to loc
 `true` or `false`
 #### Purpose
 Enable or disable HTTPS
+
+### `dp__ipv6_enable`
+#### Default value
+`true`
+#### Possible values
+`true` or `false`
+#### Purpose
+Enable or disable IPv6
 
 Dependencies
 ------------
