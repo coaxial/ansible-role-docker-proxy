@@ -5,6 +5,13 @@ services:
     environment:
       - VIRTUAL_HOST={{ item.vhost }}
       - VIRTUAL_PORT={{ item.port }}
+{% if dp__le_enable %}
+      - LETSENCRYPT_HOST={{ item.vhost }}
+      - LETSENCRYPT_EMAIL={{ dp__le_email }}
+{% if dp__le_test %}
+      - LETSENCRYPT_TEST=true
+{% endif %}
+{% endif %}
     networks:
       - {{ dp__network_name }}
       - default

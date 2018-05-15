@@ -34,13 +34,13 @@ dp__upstream:
 #### Purpose
 Describes the services to put behind the proxy, and how to access them.
 
-### `dp__https_enable`
+### `dp__le_enable`
 #### Default value
 `true`
 #### Possible values
 `true` or `false`
 #### Purpose
-Enable or disable HTTPS
+Enable or disable HTTPS and let's encrypt certificates.
 
 ### `dp__ipv6_enable`
 #### Default value
@@ -49,6 +49,14 @@ Enable or disable HTTPS
 `true` or `false`
 #### Purpose
 Enable or disable IPv6
+
+### `dp__le_email`
+#### Default value
+none, must be set if `dp__le_enable` is `true`
+#### Possible values
+any valid email address
+#### Purpose
+Used by Let's Encrypt to warn of expiring certificates should the auto-renewal fail, and for account recovery.
 
 Dependencies
 ------------

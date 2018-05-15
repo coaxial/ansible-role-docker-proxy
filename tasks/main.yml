@@ -28,6 +28,41 @@
     group: root
   with_items: "{{ dp__upstream }}"
 
+- name: Create SSL certificates volume
+  docker_volume:
+    name: ssl_certs
+
+- name: Start proxy service
+  docker_container:
+    image: jwilder/nginx-proxy
+    name: nginx-proxy
+    env:
+      ENABLE_IPV6: "{{ dp__ipv6_enable }}"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ssl_certs:/etc/nginx/certs:ro
+      - /etc/nginx/vhost.d
+      - /usr/share/nginx/html
+    ports:
+      - "80:80"
+      - "443:443"
+    labels:
+      com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy:
+    restart_policy: always
+    networks:
+      - name: "{{ dp__network_name }}"
+    state: started
+
+- name: Start letsencrypt companion
+  docker_container:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    name: nginx-proxy-companion
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ssl_certs:/etc/nginx/certs
+    volumes_from:
+      - nginx-proxy
+
 - name: Restart upstream services with extended config
   docker_service:
     project_src: "{{ item.project_src }}"
@@ -38,18 +73,3 @@
     # attach to new upstreams network
     recreate: always
   with_items: "{{ dp__upstream }}"
-
-- name: Start proxy service
-  docker_container:
-    image: jwilder/nginx-proxy
-    name: nginx-proxy
-    env:
-      ENABLE_IPV6: "{{ dp__ipv6_enable }}"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-    ports:
-      - "80:80"
-    restart_policy: always
-    networks:
-      - name: "{{ dp__network_name }}"
-    state: started
