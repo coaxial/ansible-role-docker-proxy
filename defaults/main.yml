@@ -1,5 +1,5 @@
 ---
 dp__ipv6_enable: true
 dp__le_enable: true
-dp__le_test: true
+dp__le_test: false
 dp__network_name: upstreams
