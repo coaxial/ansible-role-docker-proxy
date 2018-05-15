@@ -1,4 +1,14 @@
 ---
+- name: Load variables for HTTP
+  include_vars:
+    file: http.yml
+  when: not dp__le_enable
+
+- name: Load variables for HTTPS
+  include_vars:
+    file: https.yml
+  when: dp__le_enable
+
 - name: Install iptables-persistent
   package:
     name: iptables-persistent
@@ -31,6 +41,7 @@
 - name: Create SSL certificates volume
   docker_volume:
     name: ssl_certs
+  when: dp__le_enable
 
 - name: Start proxy service
   docker_container:
@@ -38,14 +49,8 @@
     name: nginx-proxy
     env:
       ENABLE_IPV6: "{{ dp__ipv6_enable }}"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ssl_certs:/etc/nginx/certs:ro
-      - /etc/nginx/vhost.d
-      - /usr/share/nginx/html
-    ports:
-      - "80:80"
-      - "443:443"
+    volumes: "{{ _dp__np_volumes }}"
+    ports: "{{ _dp__np_ports }}"
     labels:
       com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy:
     restart_policy: always
@@ -62,8 +67,14 @@
       - ssl_certs:/etc/nginx/certs
     volumes_from:
       - nginx-proxy
+  when: dp__le_enable
 
-- name: Restart upstream services with extended config
+- name: Wait for LE companion to generate DH parameters (takes a long time, several minutes)
+  wait_for:
+    timeout: 300
+  when: dp__le_enable
+
+- name: Recreate upstream services with extended config
   docker_service:
     project_src: "{{ item.project_src }}"
     services: "{{ item.svc_name }}"

@@ -48,7 +48,15 @@ Enable or disable HTTPS and let's encrypt certificates.
 #### Possible values
 `true` or `false`
 #### Purpose
-Enable or disable IPv6
+Enable or disable IPv6.
+
+### `dp__le_enable`
+#### Default value
+`true`
+#### Possible values
+`true` or `false`
+#### Purpose
+Enable or disable lets encrypt certificate auto-renewal.
 
 ### `dp__le_email`
 #### Default value

@@ -1,0 +1,9 @@
+_dp__np_volumes:
+  - /var/run/docker.sock:/tmp/docker.sock:ro
+  - ssl_certs:/etc/nginx/certs:ro
+  - /etc/nginx/vhost.d
+  - /usr/share/nginx/html
+
+_dp__np_ports:
+  - "80:80"
+  - "443:443"
