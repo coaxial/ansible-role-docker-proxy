@@ -1,7 +1,7 @@
 _dp__np_volumes:
-  - /var/run/docker.sock:/tmp/docker.sock:ro
-  - /etc/nginx/vhost.d
-  - /usr/share/nginx/html
+  - /etc/nginx/conf.d/
+  - /etc/nginx/vhost.d/
+  - /usr/share/nginx/html/
 
 _dp__np_ports:
   - "80:80"
