@@ -1,0 +1,16 @@
+---
+- name: Install iptables-persistent
+  package:
+    name: iptables-persistent
+    state: present
+
+- name: Close upstream ports
+  iptables:
+    action: insert
+    chain: DOCKER-USER
+    protocol: tcp
+    in_interface: "{{ ansible_default_ipv4.interface }}"
+    destination_port: "{{ item.port }}"
+    jump: DROP
+  notify: persist iptables
+  with_items: "{{ dp__upstream }}"

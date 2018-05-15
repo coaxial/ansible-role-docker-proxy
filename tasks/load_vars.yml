@@ -1,0 +1,10 @@
+---
+- name: Load variables for HTTP
+  include_vars:
+    file: http.yml
+  when: not dp__le_enable
+
+- name: Load variables for HTTPS
+  include_vars:
+    file: https.yml
+  when: dp__le_enable

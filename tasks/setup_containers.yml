@@ -1,0 +1,37 @@
+---
+- name: Create the upstream network
+  docker_network:
+    name: "{{ dp__network_name }}"
+
+- name: Add upstream apps to network
+  template:
+    src: templates/docker-compose.proxy.yml.j2
+    dest: "{{ item.project_src }}/docker-compose.proxy.yml"
+    mode: '0400'
+    owner: root
+    group: root
+  with_items: "{{ dp__upstream }}"
+
+- name: Create SSL certificates volume
+  docker_volume:
+    name: ssl_certs
+  when: dp__le_enable
+
+- name: Create nginx-proxy directory
+  file:
+    path: /opt/nginx-proxy
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  when: dp__le_enable
+
+- name: Copy nginx template file
+  get_url:
+    url: https://raw.githubusercontent.com/jwilder/nginx-proxy/master/nginx.tmpl
+    dest: /opt/nginx-proxy/nginx.tmpl
+    force: true
+    owner: root
+    group: root
+    mode: "0400"
+  when: dp__le_enable
