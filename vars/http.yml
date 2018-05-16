@@ -1,3 +1,4 @@
+---
 _dp__np_volumes:
   - /etc/nginx/conf.d/
   - /etc/nginx/vhost.d/

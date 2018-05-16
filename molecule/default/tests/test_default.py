@@ -20,4 +20,3 @@ def test_firewall(host):
     assert r.contains(
         "-A DOCKER-USER -i eth0 -p tcp -m tcp --dport 5000 -j DROP"
     )
-
