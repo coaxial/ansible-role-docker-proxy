@@ -15,3 +15,8 @@
       with_items:
         - name: docker
         - name: docker-compose
+
+    - name: Create fake webapp dir
+      file:
+        path: /opt/webapp
+        state: directory
