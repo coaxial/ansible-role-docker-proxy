@@ -10,7 +10,7 @@
     restart_policy: always
     networks:
       - name: "{{ dp__network_name }}"
-    when: not dp__testing
+  when: not dp__testing
 
 - name: Start nginx-gen
   docker_container:
