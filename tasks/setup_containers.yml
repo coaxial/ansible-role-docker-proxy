@@ -16,7 +16,7 @@
 - name: Create SSL certificates volume
   docker_volume:
     name: ssl_certs
-  when: dp__le_enable
+  when: dp__le_enable and not dp__testing
 
 - name: Create nginx-proxy directory
   file:
