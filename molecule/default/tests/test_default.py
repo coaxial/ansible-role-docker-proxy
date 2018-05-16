@@ -15,8 +15,6 @@ def test_hosts_file(host):
 
 
 def test_firewall(host):
-    r = host.iptables().get_rules("filter", "DOCKER-USER")
+    r = host.iptables.rules()
 
-    assert r.contains(
-        "-A DOCKER-USER -i eth0 -p tcp -m tcp --dport 5000 -j DROP"
-    )
+    assert "-A DOCKER-USER -i eth0 -p tcp -m tcp --dport 5000 -j DROP" in r
