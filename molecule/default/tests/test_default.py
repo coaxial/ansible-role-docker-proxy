@@ -12,3 +12,12 @@ def test_hosts_file(host):
     assert f.exists
     assert f.user == 'root'
     assert f.group == 'root'
+
+
+def test_firewall(host):
+    r = host.iptables().get_rules("filter", "DOCKER-USER")
+
+    assert r.contains(
+        "-A DOCKER-USER -i eth0 -p tcp -m tcp --dport 5000 -j DROP"
+    )
+

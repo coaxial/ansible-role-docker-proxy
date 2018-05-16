@@ -1,5 +1,13 @@
 ---
 - name: Converge
   hosts: all
+  vars:
+    dp__testing: true
+    dp__le_test: true
+    dp__le_email: test@example.org
+    dp__upstream:
+      - port: 5000
+        svc_name: webapp
+        project_src:
   roles:
     - role: ansible-role-docker-proxy
