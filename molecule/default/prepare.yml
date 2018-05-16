@@ -2,4 +2,16 @@
 - name: Prepare
   hosts: all
   gather_facts: false
-  tasks: []
+  tasks:
+    - name: Install pip
+      package:
+        name: python-pip
+        state: present
+
+    - name: Install pip deps
+      pip:
+        name: "{{ item.name }}"
+        state: present
+      with_items:
+        - name: docker
+        - name: docker-compose
