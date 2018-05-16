@@ -26,6 +26,7 @@ def test_compose_extends(host):
     assert dc.exists
     assert dc.user == 'root'
     assert dc.group == 'root'
+    assert dc.mode == 0o400
     assert dc.contains('webapp:')
     assert dc.contains('VIRTUAL_HOST=test.example.org')
     assert dc.contains('VIRTUAL_PORT=5000')
@@ -34,3 +35,16 @@ def test_compose_extends(host):
     assert not dc.contains('LETSENCRYPT_TEST=true')
     assert dc.contains('upstreams:')
     assert dc.contains('- upstreams')
+
+
+def test_nginx_proxy(host):
+    d = host.file('/opt/nginx-proxy')
+    t = host.file('/opt/nginx-proxy/nginx.tmpl')
+
+    for item in [d, t]:
+        assert item.exists
+        assert item.user == 'root'
+        assert item.group == 'root'
+
+    assert d.mode == 0o755
+    assert t.mode == 0o400
