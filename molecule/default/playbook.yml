@@ -9,5 +9,15 @@
       - port: 5000
         svc_name: webapp
         project_src:
+  pre_tasks:
+    # to get ansible_default_ipv4 var
+    - name: install required package for facts
+      package:
+        name: iproute2
+        state: present
+
+    - name: gather facts again
+      setup:
+
   roles:
     - role: ansible-role-docker-proxy
