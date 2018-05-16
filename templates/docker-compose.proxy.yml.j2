@@ -16,5 +16,5 @@ services:
       - {{ dp__network_name }}
       - default
 networks:
-  upstreams:
+  {{ dp__network_name }}:
     external: true
