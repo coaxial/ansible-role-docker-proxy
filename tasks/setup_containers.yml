@@ -2,6 +2,7 @@
 - name: Create the upstream network
   docker_network:
     name: "{{ dp__network_name }}"
+  when: not dp__testing
 
 - name: Add upstream apps to network
   template:
