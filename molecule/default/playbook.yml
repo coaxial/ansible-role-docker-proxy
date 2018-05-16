@@ -1,7 +1,6 @@
 ---
 - name: Converge
   hosts: all
-  gather_facts: false
   become: true
   vars:
     dp__testing: true
@@ -12,25 +11,5 @@
         svc_name: webapp
         project_src: /opt/webapp
         vhost: test.example.org
-  pre_tasks:
-    # to get ansible_default_ipv4 var
-    - name: install required packages
-      package:
-        name: "{{ item.name }}"
-        state: present
-      with_items:
-        - name: iproute2
-        - name: iptables
-
-    - name: gather facts
-      setup:
-
-    # the chain isn't created if docker isn't running, and it isn't because docker in docker is no fun
-    - name: create docker iptables chain
-      become: true
-      command: iptables -N DOCKER-USER
-      # get rid of ANSIBLE0012 lint error
-      when: true
-
   roles:
     - role: ansible-role-docker-proxy
