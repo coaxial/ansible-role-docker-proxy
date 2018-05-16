@@ -9,8 +9,11 @@ platforms:
   - name: instance
     image: geerlingguy/docker-ubuntu1604-ansible
     command: /sbin/init
+    privileged: true
     capabilities:
       - SYS_ADMIN
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
 provisioner:
   name: ansible
   lint:

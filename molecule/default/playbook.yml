@@ -1,6 +1,8 @@
 ---
 - name: Converge
   hosts: all
+  gather_facts: false
+  become: true
   vars:
     dp__testing: true
     dp__le_test: true
@@ -16,7 +18,7 @@
         name: iproute2
         state: present
 
-    - name: gather facts again
+    - name: gather facts
       setup:
 
   roles:
