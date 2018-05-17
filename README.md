@@ -12,9 +12,12 @@ Role Variables
 --------------
 
 - ### `dp__upstream`
-  #### Default value
-  none, must be set
-  #### Possible values/example
+
+  Default value | Possible values | Purpose
+  ---|---|---
+  none, must be set | cf. example below | Describes the services to put behind the proxy, and how to access them.
+
+  Example:
   ```yaml
   dp__upstream:
     - port: 1234  # port the upstream webserver exposes
@@ -31,50 +34,36 @@ Role Variables
       project_src: /opt/docker-app3/
     ...
   ```
-  #### Purpose
-  Describes the services to put behind the proxy, and how to access them.
 
 - ### `dp__ipv6_enable`
-  #### Default value
-  `true`
-  #### Possible values
-  `true` or `false`
-  #### Purpose
-  Enable or disable IPv6.
+
+  Default value | Possible values | Purpose
+  ---|---|---
+  `true`|`true` or `false`|Enable or disable IPv6.
 
 - ### `dp__le_enable`
-  #### Default value
-  `true`
-  #### Possible values
-  `true` or `false`
-  #### Purpose
-  Enable or disable lets encrypt certificate auto-renewal.
+
+  Default value | Possible values | Purpose
+  ---|---|---
+  `true` | `true` or `false` | Enable or disable lets encrypt certificate auto-renewal.
 
 - ### `dp__le_test`
-  #### Default value
-  `false`
-  #### Possible values
-  `true` or `false`
-  #### Purpose
-  Use lets encrypt's testing servers instead of the lives one to avoid rate limiting (5 certs/week, it happens very quickly)
+
+  Default value | Possible values | Purpose
+  ---|---|---
+  `false`| `true` or `false`| Use lets encrypt's testing servers instead of the lives one to avoid rate limiting (5 certs/week, it happens very quickly)
 
 - ### `dp__le_email`
-  #### Default value
-  none, must be set if `dp__le_enable` is `true`
-  #### Possible values
-  any valid email address
-  #### Purpose
-  Used by Let's Encrypt to warn of expiring certificates should the auto-renewal fail, and for account recovery.
+
+  Default value | Possible values | Purpose
+  ---|---|---
+  none, must be set if `dp__le_enable` is `true`| any valid email address| Used by Let's Encrypt to warn of expiring certificates should the auto-renewal fail, and for account recovery.
 
 - ### `dp__le_timeout`
-  #### Default value
-  `300`
-  #### Possible values
-  Any integer
-  #### Purpose
-  The lets encrypt container needs to generate its DH params before it listens to upstream servers restarts and starts getting certs for them. This is the amount of time it takes to generate the DH params and for while the playbook's execution stops after starting the lets encrypt container.
-  It's possible this value is too high, so it can be overridden. The value is the number of seconds to wait for the lets encrypt container to start.
-  For example, 120 seconds is usually enough on a 5$ DigitalOcean droplet.
+
+  Default value | Possible values | Purpose | Notes
+  ---|---|---|---
+  `300` | Any integer | The lets encrypt container needs to generate its DH params before it listens to upstream servers restarts and starts getting certs for them. This is the amount of time it takes to generate the DH params and for while the playbook's execution stops after starting the lets encrypt container. | It's possible this value is too high, so it can be overridden. The value is the number of seconds to wait for the lets encrypt container to start. For example, 120 seconds is usually enough on a 5$ DigitalOcean droplet.
 
 Dependencies
 ------------
