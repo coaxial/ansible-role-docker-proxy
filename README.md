@@ -3,6 +3,8 @@ Docker Proxy
 
 Reverse proxy in a Docker container to streamline services and easily setup HTTPS.
 
+[![Build Status](https://travis-ci.org/coaxial/ansible-role-docker-proxy.svg?branch=master)](https://travis-ci.org/coaxial/ansible-role-docker-proxy)
+
 Requirements
 ------------
 
