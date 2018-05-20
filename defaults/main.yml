@@ -4,3 +4,4 @@ dp__le_enable: true
 dp__le_test: false
 dp__network_name: upstreams
 dp__le_timeout: 300
+dp__testing: false
