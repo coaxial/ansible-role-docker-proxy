@@ -1,0 +1,8 @@
+---
+_dp__np_volumes:
+  - /etc/nginx/conf.d/
+  - /etc/nginx/vhost.d/
+  - /usr/share/nginx/html/
+
+_dp__np_ports:
+  - "80:80"

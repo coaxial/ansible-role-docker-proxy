@@ -2,4 +2,40 @@
 - name: Prepare
   hosts: all
   gather_facts: false
-  tasks: []
+  tasks:
+    - name: Install pip
+      package:
+        name: python-pip
+        state: present
+
+    - name: Install pip deps
+      pip:
+        name: "{{ item.name }}"
+        state: present
+      with_items:
+        - name: docker
+        - name: docker-compose
+
+    - name: Create fake webapp dir
+      file:
+        path: /opt/webapp
+        state: directory
+
+    # to get ansible_default_ipv4 var
+    - name: install required packages
+      package:
+        name: "{{ item.name }}"
+        state: present
+      with_items:
+        - name: iproute2
+        - name: iptables
+
+    - name: gather facts
+      setup:
+
+    # the chain isn't created if docker isn't running, and it isn't because docker in docker is no fun
+    - name: create docker iptables chain
+      become: true
+      command: iptables -N DOCKER-USER
+      # get rid of ANSIBLE0012 lint error
+      when: true

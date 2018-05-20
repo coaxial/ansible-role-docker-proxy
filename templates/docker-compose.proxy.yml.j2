@@ -1,0 +1,20 @@
+---
+version: '3'
+services:
+  {{ item.svc_name }}:
+    environment:
+      - VIRTUAL_HOST={{ item.vhost }}
+      - VIRTUAL_PORT={{ item.port }}
+{% if dp__le_enable %}
+      - LETSENCRYPT_HOST={{ item.vhost }}
+      - LETSENCRYPT_EMAIL={{ dp__le_email }}
+{% if dp__le_test %}
+      - LETSENCRYPT_TEST=true
+{% endif %}
+{% endif %}
+    networks:
+      - {{ dp__network_name }}
+      - default
+networks:
+  {{ dp__network_name }}:
+    external: true
