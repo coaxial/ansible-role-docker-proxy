@@ -4,7 +4,7 @@
   become: true
   vars:
     dp__testing: true
-    dp__le_email: test@example.org
+    dp__le_enable: false
     dp__upstream:
       - port: 5000
         svc_name: webapp

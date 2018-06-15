@@ -10,7 +10,6 @@
     restart_policy: always
     networks:
       - name: "{{ dp__network_name }}"
-  when: not dp__testing
 
 - name: Start nginx-gen
   docker_container:
@@ -57,4 +56,3 @@
     # attach to new upstreams network
     recreate: always
   with_items: "{{ dp__upstream }}"
-  when: not dp__testing

@@ -48,3 +48,19 @@ def test_nginx_proxy(host):
 
     assert d.mode == 0o755
     assert t.mode == 0o400
+
+
+def test_proxy_bypass(host):
+    host.run_command('sudo apt install curl -yq')
+    FAILED_TO_CONNECT_TO_HOST_EXIT_CODE = 7
+
+    assert host.run_expect(
+        [FAILED_TO_CONNECT_TO_HOST_EXIT_CODE],
+        'curl -sfL http://localhost'
+    )
+
+
+def test_proxy(host):
+    webpage = host.check_output('http://localhost:5000')
+
+    assert "Hello world" in webpage

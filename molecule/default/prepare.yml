@@ -21,6 +21,16 @@
         path: /opt/webapp
         state: directory
 
+    - name: Copy fake docker-compose
+      file:
+        src: files/fake-doco.yml
+        dest: /opt/webapp/docker-compose.yml
+
+    - name: start fake webapp
+      docker_service:
+        path: /opt/webapp
+        state: present
+
     # to get ansible_default_ipv4 var
     - name: install required packages
       package:
@@ -32,10 +42,3 @@
 
     - name: gather facts
       setup:
-
-    # the chain isn't created if docker isn't running, and it isn't because docker in docker is no fun
-    - name: create docker iptables chain
-      become: true
-      command: iptables -N DOCKER-USER
-      # get rid of ANSIBLE0012 lint error
-      when: true
