@@ -21,9 +21,9 @@
         path: /opt/webapp
         state: directory
 
-    - name: Copy fake docker-compose
-      file:
-        src: docker-compose.yml
+    - name: Copy docker-compose
+      copy:
+        src: files/docker-compose.yml
         dest: /opt/webapp/docker-compose.yml
 
     - name: start fake webapp
