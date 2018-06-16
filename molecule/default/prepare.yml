@@ -16,7 +16,7 @@
         - name: docker
         - name: docker-compose
 
-    - name: Create fake webapp dir
+    - name: Create dummy webapp dir
       file:
         path: /opt/webapp
         state: directory
@@ -26,9 +26,9 @@
         src: files/docker-compose.yml
         dest: /opt/webapp/docker-compose.yml
 
-    - name: start fake webapp
+    - name: start dummy webapp
       docker_service:
-        path: /opt/webapp
+        project_src: /opt/webapp
         state: present
 
     # to get ansible_default_ipv4 var
