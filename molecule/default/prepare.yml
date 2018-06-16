@@ -2,20 +2,11 @@
 - name: Prepare
   hosts: all
   gather_facts: false
+  vars:
+    pip_install_packages:
+      - docker
+      - docker-compose
   tasks:
-    - name: Install pip
-      package:
-        name: python-pip
-        state: present
-
-    - name: Install pip deps
-      pip:
-        name: "{{ item.name }}"
-        state: present
-      with_items:
-        - name: docker
-        - name: docker-compose
-
     - name: Create dummy webapp dir
       file:
         path: /opt/webapp
@@ -42,3 +33,6 @@
 
     - name: gather facts
       setup:
+  roles:
+    - geerlingguy.docker
+    - geerlingguy.pip
