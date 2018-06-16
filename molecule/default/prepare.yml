@@ -23,7 +23,7 @@
 
     - name: Copy fake docker-compose
       file:
-        src: files/docker-compose.yml
+        src: docker-compose.yml
         dest: /opt/webapp/docker-compose.yml
 
     - name: start fake webapp
