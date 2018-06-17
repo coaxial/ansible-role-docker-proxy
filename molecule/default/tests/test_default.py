@@ -65,6 +65,7 @@ def test_containers_start(host):
     services = ['nginx-proxy', 'nginx-gen', 'nginx-le']
 
     for service in services:
+        assert service == 'foo'
         container_full_name = host.check_output(
             "docker ps -f 'name=%s' {% raw %}--format='{{.Names}}'{% endraw %}"
             % service
