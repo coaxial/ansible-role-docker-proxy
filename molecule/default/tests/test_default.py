@@ -47,3 +47,27 @@ def test_proxy(host):
     webpage = host.check_output('curl -sfL http://localhost:5000')
 
     assert "Thank you for using nginx." in webpage
+
+
+def test_ssl_certs_volume(host):
+    volumes = host.run('docker volume list')
+
+    assert "ssl_certs" in volumes
+
+
+def test_nginx_template(host):
+    f = host.file('/opt/nginx-proxy/nginx.tmpl')
+
+    assert f.exists
+
+
+def test_containers_start(host):
+    services = ['nginx-proxy', 'nginx-gen', 'nginx-le']
+
+    for s in enumerate(services):
+        container_full_name = host.check_output(
+            'docker ps -f "name=%s" {% raw %}--format "{{.Names}}"{% endraw %}'
+            % s
+        )
+
+    assert s in container_full_name
