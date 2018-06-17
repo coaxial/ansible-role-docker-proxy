@@ -6,14 +6,6 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('all')
 
 
-def test_hosts_file(host):
-    f = host.file('/etc/hosts')
-
-    assert f.exists
-    assert f.user == 'root'
-    assert f.group == 'root'
-
-
 def test_firewall(host):
     r = host.iptables.rules('filter', 'DOCKER-USER')
 
@@ -51,7 +43,7 @@ def test_nginx_proxy(host):
 
 
 def test_proxy_bypass(host):
-    host.run_command('sudo apt install curl -yq')
+    host.run('sudo apt install curl -yq')
     FAILED_TO_CONNECT_TO_HOST_EXIT_CODE = 7
 
     assert host.run_expect(
