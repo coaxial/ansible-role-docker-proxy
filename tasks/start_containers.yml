@@ -24,7 +24,7 @@
     networks:
       - name: "{{ dp__network_name }}"
     command: -notify-sighup nginx-proxy -watch -wait 5s:30s /etc/docker-gen/templates/nginx.tmpl /etc/nginx/conf.d/default.conf
-  when: dp__le_enable and not dp__testing
+  when: dp__le_enable
 
 - name: Start LE container
   docker_container:
@@ -39,7 +39,7 @@
       - /var/run/docker.sock:/var/run/docker.sock:ro
     volumes_from:
       - nginx-proxy
-  when: dp__le_enable and not dp__testing
+  when: dp__le_enable
 
 - name: Wait for LE companion to generate DH parameters (takes a long time, several minutes)
   wait_for:
