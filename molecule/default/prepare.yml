@@ -31,8 +31,6 @@
         - name: iproute2
         - name: iptables
 
-    - name: gather facts
-      setup:
   roles:
     - geerlingguy.docker
     - geerlingguy.pip
