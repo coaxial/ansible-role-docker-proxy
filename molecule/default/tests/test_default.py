@@ -42,17 +42,8 @@ def test_nginx_proxy(host):
     assert t.mode == 0o400
 
 
-def test_proxy_bypass(host):
-    host.run('sudo apt install curl -yq')
-    FAILED_TO_CONNECT_TO_HOST_EXIT_CODE = 7
-
-    assert host.run_expect(
-        [FAILED_TO_CONNECT_TO_HOST_EXIT_CODE],
-        'curl -sfL http://{{ ansible_default_ipv4.interface }}'
-    )
-
-
 def test_proxy(host):
-    webpage = host.check_output('http://localhost:5000')
+    host.run('sudo apt install curl -yq')
+    webpage = host.check_output('curl -sfL http://localhost:5000')
 
     assert "Thank you for using nginx." in webpage
