@@ -48,11 +48,11 @@ def test_proxy_bypass(host):
 
     assert host.run_expect(
         [FAILED_TO_CONNECT_TO_HOST_EXIT_CODE],
-        'curl -sfL http://localhost'
+        'curl -sfL http://{{ ansible_default_ipv4.interface }}'
     )
 
 
 def test_proxy(host):
     webpage = host.check_output('http://localhost:5000')
 
-    assert "Hello world" in webpage
+    assert "Thank you for using nginx." in webpage
