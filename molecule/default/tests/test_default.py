@@ -24,7 +24,7 @@ def test_compose_extends(host):
     assert dc.contains('VIRTUAL_PORT=5000')
     assert dc.contains('LETSENCRYPT_HOST=test.example.org')
     assert dc.contains('LETSENCRYPT_EMAIL=test@example.org')
-    assert not dc.contains('LETSENCRYPT_TEST=true')
+    assert dc.contains('LETSENCRYPT_TEST=true')
     assert dc.contains('upstreams:')
     assert dc.contains('- upstreams')
 
