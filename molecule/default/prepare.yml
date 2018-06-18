@@ -1,25 +1,26 @@
 ---
 - name: Prepare
   hosts: all
-  gather_facts: false
+  gather_facts: true
+  vars:
+    pip_install_packages:
+      - docker
+      - docker-compose
   tasks:
-    - name: Install pip
-      package:
-        name: python-pip
-        state: present
-
-    - name: Install pip deps
-      pip:
-        name: "{{ item.name }}"
-        state: present
-      with_items:
-        - name: docker
-        - name: docker-compose
-
-    - name: Create fake webapp dir
+    - name: Create dummy webapp dir
       file:
         path: /opt/webapp
         state: directory
+
+    - name: Copy docker-compose
+      copy:
+        src: files/docker-compose.yml
+        dest: /opt/webapp/docker-compose.yml
+
+    - name: start dummy webapp
+      docker_service:
+        project_src: /opt/webapp
+        state: present
 
     # to get ansible_default_ipv4 var
     - name: install required packages
@@ -30,12 +31,6 @@
         - name: iproute2
         - name: iptables
 
-    - name: gather facts
-      setup:
-
-    # the chain isn't created if docker isn't running, and it isn't because docker in docker is no fun
-    - name: create docker iptables chain
-      become: true
-      command: iptables -N DOCKER-USER
-      # get rid of ANSIBLE0012 lint error
-      when: true
+  roles:
+    - geerlingguy.docker
+    - geerlingguy.pip

@@ -6,14 +6,6 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('all')
 
 
-def test_hosts_file(host):
-    f = host.file('/etc/hosts')
-
-    assert f.exists
-    assert f.user == 'root'
-    assert f.group == 'root'
-
-
 def test_firewall(host):
     r = host.iptables.rules('filter', 'DOCKER-USER')
 
@@ -32,7 +24,7 @@ def test_compose_extends(host):
     assert dc.contains('VIRTUAL_PORT=5000')
     assert dc.contains('LETSENCRYPT_HOST=test.example.org')
     assert dc.contains('LETSENCRYPT_EMAIL=test@example.org')
-    assert not dc.contains('LETSENCRYPT_TEST=true')
+    assert dc.contains('LETSENCRYPT_TEST=true')
     assert dc.contains('upstreams:')
     assert dc.contains('- upstreams')
 
@@ -48,3 +40,34 @@ def test_nginx_proxy(host):
 
     assert d.mode == 0o755
     assert t.mode == 0o400
+
+
+def test_proxy(host):
+    host.run('sudo apt install curl -yq')
+    webpage = host.check_output('curl -sfL http://localhost:5000')
+
+    assert "Thank you for using nginx." in webpage
+
+
+def test_ssl_certs_volume(host):
+    volumes = host.check_output('docker volume list')
+
+    assert "ssl_certs" in volumes
+
+
+def test_nginx_template(host):
+    f = host.file('/opt/nginx-proxy/nginx.tmpl')
+
+    assert f.exists
+
+
+def test_containers_start(host):
+    services = ['nginx-proxy', 'nginx-gen', 'nginx-le']
+
+    for service in services:
+        container_full_name = host.check_output(
+            "docker ps -f 'name={0}' ".format(service) +
+            "{% raw %}--format='{{.Names}}'{% endraw %}"
+        )
+
+    assert service in container_full_name

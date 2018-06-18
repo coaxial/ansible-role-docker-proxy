@@ -2,6 +2,6 @@
 version: '3'
 services:
   webapp:
-    image: training/webapp
+    image: nginx
     ports:
-      - "5000:5000"
+      - "5000:80"

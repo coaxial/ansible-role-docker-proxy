@@ -4,7 +4,7 @@ galaxy_info:
   description: Docker reverse proxy for Docker containers
   company: 64b.it
   issue_tracker_url: https://github.com/coaxial/ansible-role-docker-proxy/issues
-  license: CC-BY
+  license: MIT
 
   min_ansible_version: 2.4
 
