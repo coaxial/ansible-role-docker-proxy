@@ -49,7 +49,7 @@
 - name: Check for existing docker-compose.yml overrides
   # shell: "find {{ item.project_src }} -maxdepth 1 -type f -name 'docker-compose.*.yml' -exec echo {{ item.project_src }} `basename {} ';'`"
   find:
-    path: {{ item.project_src }}
+    path: "{{ item.project_src }}"
     patterns: 'docker-compose\.?.*\.yml'
     use_regex: true
   register: doco_list
