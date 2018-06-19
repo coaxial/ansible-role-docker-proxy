@@ -11,7 +11,7 @@
     owner: root
     group: root
   with_items: "{{ dp__upstream }}"
-  when: dp__upstream is defined and dp__upstream.is_container
+  when: item.is_container is defined and item.is_container
 
 - name: Create SSL certificates volume
   docker_volume:
