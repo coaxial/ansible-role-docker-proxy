@@ -1,7 +1,8 @@
 ---
 jobs:
   include:
-    - stage: test
+    - &test
+      stage: test
       language: python
       python: "2.7"
       cache: pip
@@ -13,16 +14,7 @@ jobs:
         - pip install molecule
       script:
         - molecule test
-    - stage: test
-      language: python
-      python: "2.7"
-      cache: pip
-      services:
-        - docker
-      install:
-        - pip install ansible
-        - pip install docker-py
-        - pip install molecule
+    - <<: *test
       script:
         - '(while true; do echo -e "HTTP/1.1 200 OK\r\n Hello world!" | nc -q 1 -l -p 1500; done) &'
         - molecule test --scenario-name non-docker
