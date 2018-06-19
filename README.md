@@ -1,7 +1,7 @@
 Docker Proxy
 =========
 
-Reverse proxy in a Docker container to streamline services and easily setup HTTPS.
+Reverse proxy in a Docker container to streamline services and easily setup HTTPS. Will respect exisiting docker-compose.yml overrides.
 
 [![Build Status](https://travis-ci.org/coaxial/ansible-role-docker-proxy.svg?branch=master)](https://travis-ci.org/coaxial/ansible-role-docker-proxy)
 
@@ -9,6 +9,7 @@ Requirements
 ------------
 
 - Docker
+- docker-compose
 
 Role Variables
 --------------
@@ -94,7 +95,7 @@ passed in as parameters) is always nice for users too:
 License
 -------
 
-BSD
+MIT
 
 Author Information
 ------------------
