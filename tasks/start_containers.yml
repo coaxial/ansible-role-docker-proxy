@@ -73,11 +73,11 @@
     image: nginx
     name: "nginx-{{ item.item.svc_name }}"
     env:
-      - VIRTUAL_HOST: {{ item.item.vhost }}
-      - VIRTUAL_PORT: {{ item.item.port }}
-      - LETSENCRYPT_HOST: {{ item.item.vhost |default('') }}
-      - LETSENCRYPT_EMAIL: {{ dp__le_email |default('') }}
-      - LETSENCRYPT_TEST: {{ dp__le_test }}
+      - VIRTUAL_HOST: "{{ item.item.vhost }}"
+      - VIRTUAL_PORT: "{{ item.item.port }}"
+      - LETSENCRYPT_HOST: "{{ item.item.vhost |default('') }}"
+      - LETSENCRYPT_EMAIL: "{{ dp__le_email |default('') }}"
+      - LETSENCRYPT_TEST: "{{ dp__le_test }}"
     networks:
       - "{{ dp__network_name }}"
       - default
