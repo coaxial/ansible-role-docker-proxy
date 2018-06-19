@@ -46,13 +46,23 @@
     timeout: "{{ dp__le_timeout }}"
   when: dp__le_enable and not dp__testing
 
+- name: Check for existing docker-compose.yml overrides
+  find:
+    path: "{{ item.project_src }}"
+    patterns: 'docker-compose\..*\.yml'
+    use_regex: true
+  register: doco_list
+  with_items: "{{ dp__upstream }}"
+
 - name: Recreate upstream services with extended config
   docker_service:
-    project_src: "{{ item.project_src }}"
-    services: "{{ item.svc_name }}"
-    files:
-      - "{{ item.doco | default('docker-compose.yml')}}"
-      - docker-compose.proxy.yml
+    project_src: "{{ item.item.project_src }}"
+    services: "{{ item.item.svc_name }}"
+    # combine the docker-compose.*.yml files found for this project with
+    # the cusomer or default docker-compose.yml file
+    files: "{{ item.files |map(attribute='path') |list + [item.item.doco |default('docker-compose.yml')] }}"
     # attach to new upstreams network
     recreate: always
-  with_items: "{{ dp__upstream }}"
+  with_items: "{{ doco_list.results }}"
+  loop_control:
+    label: "{{ item.item.project_src }}"
