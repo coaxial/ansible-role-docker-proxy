@@ -61,7 +61,7 @@
 
 - name: debug
   debug:
-    msg: "{{ item.files |map(attribute='path') |string |basename |list }}"  # | basename | list + [item.item.doco | default('docker-compose.yml')] }}"
+    msg: "{{ item.files |map(attribute='path') |list |basename }}"  # | basename | list + [item.item.doco | default('docker-compose.yml')] }}"
   with_items: "{{ doco_list.results }}"
 
 - name: Recreate upstream services with extended config
