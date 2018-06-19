@@ -63,7 +63,7 @@
   docker_service:
     project_src: "{{ item.item.project_src }}"
     services: "{{ item.item.svc_name }}"
-    files: "{{ item.files | map(attribute='path') | list| combine(item.item.doco | default('docker-compose.yml')) }}"
+    files: "{{ item.files | map(attribute='path') | list | combine(item.item.doco | default('docker-compose.yml') | list) }}"
     # attach to new upstreams network
     recreate: always
   with_items: "{{ doco_list.results }}"
