@@ -59,6 +59,11 @@
   debug:
     msg: "{{ doco_list }}"
 
+- name: debug
+  debug:
+    msg: "{{ item.files | map(attribute='path') | list + item.item.doco | default('docker-compose.yml') | list }}"
+  with_items: "{{ doco_list.results }}"
+
 - name: Recreate upstream services with extended config
   docker_service:
     project_src: "{{ item.item.project_src }}"
