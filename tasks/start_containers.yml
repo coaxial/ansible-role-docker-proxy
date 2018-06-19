@@ -66,3 +66,22 @@
   with_items: "{{ doco_list.results }}"
   loop_control:
     label: "{{ item.item.project_src }}"
+  when: item.item.container
+
+- name: Proxy non-docker webservers
+  docker_container:
+    image: nginx
+    name: "nginx-{{ item.item.svc_name }}"
+    env:
+      - VIRTUAL_HOST: {{ item.item.vhost }}
+      - VIRTUAL_PORT: {{ item.item.port }}
+      - LETSENCRYPT_HOST: {{ item.item.vhost |default('') }}
+      - LETSENCRYPT_EMAIL: {{ dp__le_email |default('') }}
+      - LETSENCRYPT_TEST: {{ dp__le_test }}
+    networks:
+      - "{{ dp__network_name }}"
+      - default
+  with_items: "{{ doco_list.results }}"
+  loop_control:
+    label: "{{ item.item.project_src }}"
+  when: not item.item.container

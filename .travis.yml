@@ -13,6 +13,9 @@ jobs:
         - pip install molecule
       script:
         - molecule test
+    - script:
+        - 'while true; do echo -e "HTTP/1.1 200 OK\r\n Hello world!" | nc -q 1 -l -p 1500; done'
+        - molecule test --scenario-name non-docker
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
