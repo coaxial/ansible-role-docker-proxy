@@ -99,6 +99,7 @@
     networks:
       - "{{ dp__network_name }}"
       - bridge
+    restart_policy: always
   with_items: "{{ dp__upstream }}"
   loop_control:
     label: "{{ item.svc_name }}"
@@ -114,6 +115,7 @@
     networks:
       - "{{ dp__network_name }}"
       - bridge
+    restart_policy: always
   with_items: "{{ dp__upstream }}"
   loop_control:
     label: "{{ item.svc_name }}"
