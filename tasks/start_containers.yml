@@ -67,7 +67,7 @@
   with_items: "{{ doco_list.results }}"
   loop_control:
     label: "{{ item.item.project_src }}"
-  when: (item.item.is_container is defined and item.item.is_container) or item.item.is_container is not defined
+  when: item.item.is_container
 
 - name: Proxy non-docker webservers
   docker_container:
@@ -85,4 +85,4 @@
   with_items: "{{ doco_list.results }}"
   loop_control:
     label: "{{ item.item.project_src }}"
-  when: item.item.is_container is defined and not item.item.is_container
+  when: not item.item.is_container

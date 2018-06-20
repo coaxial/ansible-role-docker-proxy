@@ -33,10 +33,12 @@ Role Variables
       svc_name: webserver
       project_src: /opt/docker-app2/
       vhost: www.example.org
+      is_container: true
     - port: 8900
       svc_name: app3
       project_src: /opt/docker-app3/
       vhost: app3.example.org
+      is_container: true
     # if the app to proxy isn't in a container, specify it this way:
     - port: 9100  # port the webserver runs on
       svc_name: prom_node_exporter  # a canonical name for the service

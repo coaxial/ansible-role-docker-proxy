@@ -12,5 +12,6 @@
         svc_name: webapp
         project_src: /opt/webapp
         vhost: test.example.org
+        is_container: true
   roles:
     - role: ansible-role-docker-proxy
