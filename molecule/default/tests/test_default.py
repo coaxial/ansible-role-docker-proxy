@@ -44,7 +44,8 @@ def test_nginx_proxy(host):
 
 def test_proxy(host):
     host.run('sudo apt install curl -yq')
-    webpage = host.check_output('curl -sfL http://localhost')
+    # webpage = host.check_output('curl -sfL http://localhost')
+    webpage = host.check_output('curl -vL http://localhost')
 
     assert "Thank you for using nginx." in webpage
 

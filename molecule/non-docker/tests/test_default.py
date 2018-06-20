@@ -38,7 +38,8 @@ def test_proxy(host):
         'nohup (while true; do echo -e "HTTP/1.1 200 OK\r\n'
         'Hello world!" | nc -q 1 -l -p 1500; done) &'
     )
-    webpage = host.check_output('curl -sfL http://localhost')
+    webpage = host.check_output('curl -vL http://localhost')
+    # webpage = host.check_output('curl -sfL http://localhost')
 
     assert "Hello world!" in webpage
 
