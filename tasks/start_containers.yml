@@ -86,7 +86,7 @@
       LETSENCRYPT_TEST: "{{ dp__le_test }}"
     networks:
       - "{{ dp__network_name }}"
-      - default
+      - bridge
   with_items: "{{ doco_list.results }}"
   loop_control:
     label: "{{ item.item.svc_name }}"
