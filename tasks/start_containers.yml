@@ -108,11 +108,7 @@
 - name: Proxy non-docker webservers (Let's Encrypt disabled)
   docker_container:
     image: nginx
-    # name: "nginx-{{ item.svc_name }}"
     name: "nginx-hflhlggd"
-    env:
-      VIRTUAL_HOST: "{{ item.vhost }}"
-      VIRTUAL_PORT: "{{ item.port }}"
     networks:
       - "{{ dp__network_name }}"
       - bridge
