@@ -16,7 +16,7 @@ jobs:
         - molecule test
     - <<: *test
       script:
-        - molecule test --scenario-name non-docker
+        - molecule test --debug --scenario-name non-docker
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
