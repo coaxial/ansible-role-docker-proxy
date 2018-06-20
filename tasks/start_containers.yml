@@ -82,15 +82,15 @@
   shell: 'docker ps && docker network ls'
   changed_when: false
 
-- name: Proxy non-docker webservers
+- name: Proxy non-docker webservers (Let's Encrypt enabled)
   docker_container:
     image: nginx
     name: "nginx-{{ item.svc_name }}"
     env:
       VIRTUAL_HOST: "{{ item.vhost }}"
       VIRTUAL_PORT: "{{ item.port }}"
-      LETSENCRYPT_HOST: "{{ item.vhost |default(' ') }}"
-      LETSENCRYPT_EMAIL: "{{ dp__le_email |default(' ') }}"
+      LETSENCRYPT_HOST: "{{ item.vhost  }}"
+      LETSENCRYPT_EMAIL: "{{ dp__le_email }}"
       LETSENCRYPT_TEST: "{{ dp__le_test }}"
     networks:
       - "{{ dp__network_name }}"
@@ -98,4 +98,19 @@
   with_items: "{{ dp__upstream }}"
   loop_control:
     label: "{{ item.svc_name }}"
-  when: not item.is_container
+  when: not item.is_container and dp__le_enable
+
+- name: Proxy non-docker webservers (Let's Encrypt disabled)
+  docker_container:
+    image: nginx
+    name: "nginx-{{ item.svc_name }}"
+    env:
+      VIRTUAL_HOST: "{{ item.vhost }}"
+      VIRTUAL_PORT: "{{ item.port }}"
+    networks:
+      - "{{ dp__network_name }}"
+      - bridge
+  with_items: "{{ dp__upstream }}"
+  loop_control:
+    label: "{{ item.svc_name }}"
+  when: not item.is_container and not dp__le_enable
