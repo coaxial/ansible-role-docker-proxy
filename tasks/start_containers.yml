@@ -69,6 +69,11 @@
     label: "{{ item.item.svc_name }}"
   when: item.item.is_container
 
+- name: debug
+  debug:
+    msg: "{{ not item.item.is_container }}"
+  with_items: "{{ doco_list.results }}"
+
 - name: Proxy non-docker webservers
   docker_container:
     image: nginx
