@@ -74,6 +74,10 @@
     msg: "{{ not item.item.is_container }}"
   with_items: "{{ doco_list.results }}"
 
+- name: debug
+  become: true
+  shell: 'docker ps && docker network ls'
+
 - name: Proxy non-docker webservers
   docker_container:
     image: nginx
