@@ -53,7 +53,7 @@
     use_regex: true
   register: doco_list
   with_items: "{{ dp__upstream }}"
-  when: item.project_src is defined
+  when: item.is_container
 
 - name: Recreate upstream services with extended config
   docker_service:
@@ -84,5 +84,5 @@
       - default
   with_items: "{{ doco_list.results }}"
   loop_control:
-    label: "{{ item.item.project_src }}"
+    label: "{{ item.item.svc_name }}"
   when: not item.item.is_container
