@@ -53,6 +53,7 @@
     use_regex: true
   register: doco_list
   with_items: "{{ dp__upstream }}"
+  when: item.project_src is defined
 
 - name: Recreate upstream services with extended config
   docker_service:
@@ -66,7 +67,7 @@
   with_items: "{{ doco_list.results }}"
   loop_control:
     label: "{{ item.item.project_src }}"
-  when: item.item.is_container is defined and item.item.is_container
+  when: (item.item.is_container is defined and item.item.is_container) or item.item.is_container is not defined
 
 - name: Proxy non-docker webservers
   docker_container:
