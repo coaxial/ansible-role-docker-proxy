@@ -97,8 +97,8 @@
       LETSENCRYPT_EMAIL: "{{ dp__le_email }}"
       LETSENCRYPT_TEST: "{{ dp__le_test }}"
     networks:
-      - "{{ dp__network_name }}"
-      - bridge
+      - name: "{{ dp__network_name }}"
+      - name: bridge
     restart_policy: always
   with_items: "{{ dp__upstream }}"
   loop_control:
@@ -108,10 +108,13 @@
 - name: Proxy non-docker webservers (Let's Encrypt disabled)
   docker_container:
     image: nginx
-    name: "nginx-hflhlggd"
+    name: "nginx-{{ item.svc_name }}"
+    env:
+      VIRTUAL_HOST: "{{ item.vhost }}"
+      VIRTUAL_PORT: "{{ item.port }}"
     networks:
-      - "{{ dp__network_name }}"
-      - bridge
+      - name: "{{ dp__network_name }}"
+      - name: bridge
     restart_policy: always
   with_items: "{{ dp__upstream }}"
   loop_control:
