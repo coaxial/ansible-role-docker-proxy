@@ -36,7 +36,7 @@ def test_proxy(host):
     # start non-containerized web server within the Ansible configured machine
     host.run(
         'nohup (while true; do echo -e "HTTP/1.1 200 OK\r\n'
-        'Hello world!" | nc -q 1 -l -p 1500; done) &'
+        'Hello world!" | nc -q 1 -l -p 1500; done &)'
     )
     webpage = host.check_output('curl -vL http://localhost')
     # webpage = host.check_output('curl -sfL http://localhost')
