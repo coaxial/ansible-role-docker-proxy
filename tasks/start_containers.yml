@@ -84,4 +84,4 @@
   with_items: "{{ doco_list.results }}"
   loop_control:
     label: "{{ item.item.project_src }}"
-  when: item.item.is_container is not defined or not item.item.is_container
+  when: item.item.is_container is defined and not item.item.is_container
