@@ -35,7 +35,7 @@ def test_proxy(host):
     host.run('sudo apt install curl -yq')
     # start non-containerized web server within the Ansible configured machine
     host.run(
-        '(while true; do echo -e "HTTP/1.1 200 OK\r\n'
+        'nohup (while true; do echo -e "HTTP/1.1 200 OK\r\n'
         'Hello world!" | nc -q 1 -l -p 1500; done) &'
     )
     webpage = host.check_output('curl -sfL http://localhost')
