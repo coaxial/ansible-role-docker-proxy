@@ -77,6 +77,7 @@
 - name: debug
   become: true
   shell: 'docker ps && docker network ls'
+  changed_when: false
 
 - name: Proxy non-docker webservers
   docker_container:
