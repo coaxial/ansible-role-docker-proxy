@@ -82,6 +82,10 @@
   shell: 'docker ps && docker network ls'
   changed_when: false
 
+- name: debug
+  debug:
+    msg: "{{ dp__network_name }}"
+
 - name: Proxy non-docker webservers (Let's Encrypt enabled)
   docker_container:
     image: nginx
