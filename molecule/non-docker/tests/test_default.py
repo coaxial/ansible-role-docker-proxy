@@ -52,7 +52,7 @@ def test_proxy(host):
     #     ' && curl -vL http://localhost:1500'
     # )
     # host.run('curl -vL http://localhost:1500')
-    host.run('cd /opt/webapp && sudo docker restart nginx-webapp')
+    host.run('sudo docker restart nginx-webapp')
     webpage = host.check_output(
         '(printf "HTTP/1.1 200 OK\r\n'
         'Content-length: 13\r\n\r\nHello world!\r\n" | nc -q 1 -l -p 1500 &)'
