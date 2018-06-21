@@ -44,8 +44,8 @@ def test_proxy(host):
         'sh -c \'while true; do printf "HTTP/1.1 200 OK\r\n'
         'Content-length: 14\r\n\r\nHello world!\r\n" | nc -q 1 -l -p 1500; '
         'done\''
+        ' && curl -vL http://localhost:1500'
     )
-    host.run('curl -vL http://localhost:1500')
     webpage = host.check_output('curl -vL http://localhost')
     # webpage = host.check_output('curl -sfL http://localhost')
 
