@@ -58,6 +58,7 @@ def test_proxy(host):
         'Content-length: 13\r\n\r\nHello world!\r\n" | nc -q 1 -l -p 1500 &)'
         # ' && sudo docker restart nginx-webapp'
         ' && curl -vL http://localhost'
+        '; sudo docker inspect nginx-webapp'
         '; sudo docker logs nginx-proxy'
         '; sudo docker logs nginx-webapp'
     )
