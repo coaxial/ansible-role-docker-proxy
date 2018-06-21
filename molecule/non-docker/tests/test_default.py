@@ -32,7 +32,7 @@ def test_nginx_proxy(host):
 
 
 def test_proxy(host):
-    host.run('sudo apt install daemon curl -yq')
+    host.run('sudo apt install netcat-openbsd daemon curl -yq')
     # start non-containerized web server within the Ansible configured machine
     # host.run(
     #     'nohup sh -c \'while true; do printf "HTTP/1.1 200 OK\r\n'
