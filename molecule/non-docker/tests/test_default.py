@@ -59,6 +59,7 @@ def test_proxy(host):
         ' && curl -vL http://localhost')
     # webpage = host.check_output('curl -sfL http://localhost')
 
+    host.run('sudo docker logs nginx-webapp')
     assert "Hello world!" in webpage
 
 
