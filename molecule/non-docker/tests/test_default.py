@@ -59,6 +59,7 @@ def test_proxy(host):
         # ' && sudo docker restart nginx-webapp'
         ' && curl -vL http://localhost'
         '; sudo docker inspect nginx-webapp'
+        '; sudo docker inspect nginx-proxy'
         '; sudo docker logs nginx-proxy'
         '; sudo docker logs nginx-webapp'
     )
