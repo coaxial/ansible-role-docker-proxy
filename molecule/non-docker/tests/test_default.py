@@ -32,7 +32,7 @@ def test_nginx_proxy(host):
 
 
 def test_proxy(host):
-    host.run('sudo apt install daemon curl netcat-openbsd -yq')
+    host.run('sudo apt install curl netcat-openbsd -yq')
     # start non-containerized web server within the Ansible configured machine
     # host.run(
     #     'nohup sh -c \'while true; do printf "HTTP/1.1 200 OK\r\n'
@@ -44,15 +44,18 @@ def test_proxy(host):
     #     'Content-length: 13\r\n\r\nHello world!\r\n" | nc -q 1 -l -p 1500 &)'
     #     ' && curl -vL http://localhost:1500'
     # )
-    host.run(
-        'daemon --name=nc '
-        'sh -c \'while true; do printf "HTTP/1.1 200 OK\r\n'
-        'Content-length: 13\r\n\r\nHello world!\r\n" | nc -q 1 -l -p 1500; '
-        'done\''
-        # ' && curl -vL http://localhost:1500'
-    )
-    host.run('curl -vL http://localhost:1500')
-    webpage = host.check_output('curl -vL http://localhost')
+    # host.run(
+    #     'daemon --name=nc '
+    #     'sh -c \'while true; do printf "HTTP/1.1 200 OK\r\n'
+    #     'Content-length: 13\r\n\r\nHello world!\r\n" | nc -q 1 -l -p 1500; '
+    #     'done\''
+    #     ' && curl -vL http://localhost:1500'
+    # )
+    # host.run('curl -vL http://localhost:1500')
+    webpage = host.check_output(
+        '(printf "HTTP/1.1 200 OK\r\n'
+        'Content-length: 13\r\n\r\nHello world!\r\n" | nc -q 1 -l -p 1500 &)'
+        ' && curl -sfL http://localhost')
     # webpage = host.check_output('curl -sfL http://localhost')
 
     assert "Hello world!" in webpage
