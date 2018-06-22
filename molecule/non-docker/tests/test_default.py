@@ -74,7 +74,8 @@ def test_proxy(host):
     # webpage = host.check_output('curl -sfL http://localhost')
 
     host.run('sudo docker logs nginx-webapp')
-    assert "Hello world!" in webpage
+    # assert "Hello world!" in webpage
+    assert "gogoighrioeghiroeugoilhgoia" in webpage
 
 
 def test_ssl_certs_volume(host):
