@@ -93,14 +93,14 @@
 
 - name: debug
   debug:
-    msg: {{ _dp__docker_gw_ip }}
+    msg: "{{ _dp__docker_gw_ip }}"
   changed_when: false
 
 - name: Create directory for nginx config files if needed
   # will only create the dir if there is a non-containerized upstream service
   # defined
   file:
-    path: {{ dp__nginx_config_dir }}
+    path: "{{ dp__nginx_config_dir }}"
     state: directory
   when: dp__upstream |selectattr("is_container", "equalto", true)
 
