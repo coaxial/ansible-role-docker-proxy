@@ -5,3 +5,4 @@ dp__le_test: false
 dp__network_name: upstreams
 dp__le_timeout: 300
 dp__testing: false
+dp__nginx_config_dir: /opt/non-docker-nginx

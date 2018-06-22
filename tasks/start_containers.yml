@@ -86,6 +86,32 @@
   debug:
     msg: "{{ dp__network_name }}"
 
+- name: Get docker bridge network gateway
+  command: "{% raw -%}docker network inspect bridge --format '{{range .IPAM.Config}}{{.Gateway}}{{end}}'{% endraw -%}"
+  changed_when: false
+  register: _dp__docker_gw_ip
+
+- name: debug
+  debug:
+    msg: {{ _dp__docker_gw_ip }}
+  changed_when: false
+
+- name: Create directory for nginx config files if needed
+  # will only create the dir if there is a non-containerized upstream service
+  # defined
+  file:
+    path: {{ dp__nginx_config_dir }}
+    state: directory
+  when: dp__upstream |selectattr("is_container", "equalto", true)
+
+- name: Copy nginx config file
+  template:
+    src: files/non-docker-nginx.conf.j2
+    dest: "{{ dp__nginx_config_dir }}/{{ item.svc_name }}.conf"
+    mode: 0755
+  with_items: "{{ dp__upstream }}"
+  when: not item.is_container
+
 - name: Proxy non-docker webservers (Let's Encrypt enabled)
   docker_container:
     image: nginx
@@ -99,6 +125,8 @@
     networks:
       - name: "{{ dp__network_name }}"
       - name: bridge
+    volumes:
+      - "{{ dp__nginx_config_dir }}/{{ item.svc_name }}.conf:/etc/nginx/conf.d/{{ item.svc_name }}:ro"
     restart_policy: always
   with_items: "{{ dp__upstream }}"
   loop_control:
