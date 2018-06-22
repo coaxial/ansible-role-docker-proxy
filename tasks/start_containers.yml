@@ -106,7 +106,7 @@
 
 - name: Copy nginx config file
   template:
-    src: files/non-docker-nginx.conf.j2
+    src: non-docker-nginx.conf.j2
     dest: "{{ dp__nginx_config_dir }}/{{ item.svc_name }}.conf"
     mode: 0755
   with_items: "{{ dp__upstream }}"

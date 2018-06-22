@@ -2,6 +2,6 @@ server {
   listen {{ item.port }};
 
   location / {
-    proxy_pass http://{{ _dp__docker_gw_ip }}:{{ item.port }}
+    proxy_pass http://{{ _dp__docker_gw_ip.stdout }}:{{ item.port }}
   }
 }
