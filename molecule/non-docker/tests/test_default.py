@@ -62,13 +62,13 @@ def test_proxy(host):
         '\'{{range .IPAM.Config}}{{.Gateway}}{{end}}\'{% endraw -%}`'
         ' && sleep 2; docker exec nginx-webapp sh -c \'ping'
         ' -c 5 ${GWIP}\''
-        ' && sleep 2; curl -vL http://${GWIP}:1500'
-        ' && sleep 2; curl -vL http://localhost:1500'
+        # ' && sleep 2; curl -vL http://${GWIP}:1500'
+        # ' && sleep 2; curl -vL http://localhost:1500'
         ' && sleep 2; curl -vL http://localhost'
-        '; sudo docker inspect nginx-webapp'
-        '; sudo docker inspect nginx-proxy'
-        '; sudo docker logs nginx-proxy'
-        '; sudo docker logs nginx-webapp'
+        # '; sudo docker inspect nginx-webapp'
+        # '; sudo docker inspect nginx-proxy'
+        # '; sudo docker logs nginx-proxy'
+        # '; sudo docker logs nginx-webapp'
     )
     # webpage = host.check_output('curl -sfL http://localhost')
 
