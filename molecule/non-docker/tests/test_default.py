@@ -52,9 +52,14 @@ def test_proxy(host):
     #     ' && curl -vL http://localhost:1500'
     # )
     # host.run('curl -vL http://localhost:1500')
+
+    # make test.example.org resolve so that it can be curled and nginx-proxy
+    # knows which container to forward it to based on the headers
+    host.run('127.0.0.1 test.example.org >> /etc/hosts')
+
     host.run('sudo docker logs nginx-proxy')
     host.run('sudo docker logs nginx-webapp')
-    webpage = host.check_output(
+    host.run(
         'sh -c \'(while true; do printf "HTTP/1.1 200 OK\r\n'
         'Content-length: 13\r\n\r\nHello world!\r\n" | nc -q 1 -l -p 1500;'
         ' done) &\''
@@ -78,11 +83,12 @@ def test_proxy(host):
         ' && echo "nginx-webapp logs:"'
         ' && sudo docker logs nginx-webapp'
     )
+    webpage = host.check_output('curl -sfL test.example.org')
     # webpage = host.check_output('curl -sfL http://localhost')
 
     host.run('sudo docker logs nginx-gen')
-    # assert "Hello world!" in webpage
-    assert "gogoighrioeghiroeugoilhgoia" in webpage
+    assert "Hello world!" in webpage
+    # assert "gogoighrioeghiroeugoilhgoia" in webpage
 
 
 def test_ssl_certs_volume(host):
