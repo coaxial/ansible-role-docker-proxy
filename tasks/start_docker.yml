@@ -1,0 +1,26 @@
+---
+- name: Check for existing docker-compose.yml overrides
+  find:
+    path: "{{ upstream.project_src }}"
+    patterns: 'docker-compose\..*\.yml'
+    use_regex: true
+  register: doco_list
+  loop_control:
+    label: "{{ upstream.svc_name }}"
+    loop_var: upstream
+  with_items: "{{ dp__upstream }}"
+  when: upstream.is_container
+
+- name: Recreate upstream services with extended config
+  docker_service:
+    project_src: "{{ item.upstream.project_src }}"
+    services: "{{ item.upstream.svc_name }}"
+    # combine the docker-compose.*.yml files found for this project with
+    # the custom or default docker-compose.yml file
+    files: "{{ item.files |map(attribute='path') |list + [item.upstream.doco |default('docker-compose.yml')] }}"
+    # attach to new upstreams network
+    recreate: always
+  with_items: "{{ doco_list.results }}"
+  loop_control:
+    label: "{{ item.upstream.svc_name }}"
+  when: item.upstream.is_container
