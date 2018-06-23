@@ -118,13 +118,13 @@
     name: "nginx-{{ item.svc_name }}"
     env:
       VIRTUAL_HOST: "{{ item.vhost }}"
-      VIRTUAL_PORT: "{{ item.port }}"
+      VIRTUAL_PORT: 80
       LETSENCRYPT_HOST: "{{ item.vhost  }}"
       LETSENCRYPT_EMAIL: "{{ dp__le_email }}"
       LETSENCRYPT_TEST: "{{ dp__le_test }}"
     networks:
       - name: "{{ dp__network_name }}"
-      - name: bridge
+      # - name: bridge
     volumes:
       - "{{ dp__nginx_config_dir }}/{{ item.svc_name }}.conf:/etc/nginx/conf.d/{{ item.svc_name }}.conf:ro"
     restart_policy: always
@@ -139,10 +139,10 @@
     name: "nginx-{{ item.svc_name }}"
     env:
       VIRTUAL_HOST: "{{ item.vhost }}"
-      VIRTUAL_PORT: "{{ item.port }}"
+      VIRTUAL_PORT: 80
     networks:
       - name: "{{ dp__network_name }}"
-      - name: bridge
+      # - name: bridge
     volumes:
       - "{{ dp__nginx_config_dir }}/{{ item.svc_name }}.conf:/etc/nginx/conf.d/{{ item.svc_name }}.conf:ro"
     restart_policy: always
