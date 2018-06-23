@@ -72,29 +72,10 @@
     label: "{{ item.upstream.svc_name }}"
   when: item.upstream.is_container
 
-- name: debug
-  debug:
-    msg: "{{ not item.upstream.is_container }}"
-  with_items: "{{ doco_list.results }}"
-
-- name: debug
-  become: true
-  shell: 'docker ps && docker network ls'
-  changed_when: false
-
-- name: debug
-  debug:
-    msg: "{{ dp__network_name }}"
-
 - name: Get docker bridge network gateway
   command: "{% raw -%}docker network inspect bridge --format '{{range .IPAM.Config}}{{.Gateway}}{{end}}'{% endraw -%}"
   changed_when: false
   register: _dp__docker_gw_ip
-
-- name: debug
-  debug:
-    msg: "{{ _dp__docker_gw_ip }}"
-  changed_when: false
 
 - name: Create directory for nginx config files if needed
   # will only create the dir if there is a non-containerized upstream service
