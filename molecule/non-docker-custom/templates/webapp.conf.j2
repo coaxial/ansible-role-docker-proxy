@@ -6,6 +6,6 @@ server {
   }
 
   location /hello/ {
-    proxy_pass http://{{ _dp__docker_gw_ip.stdout }}:{{ item.port }};
+    proxy_pass http://{{ _dp__docker_gw_ip.stdout }}:{{ upstream.port }};
   }
 }

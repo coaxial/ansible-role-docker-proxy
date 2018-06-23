@@ -4,7 +4,6 @@
     src: "{{ item }}"
     dest: "{{ dp__nginx_config_dir }}/{{ upstream.svc_name }}.conf"
     mode: 0755
-  # with_items: "{{ dp__upstream }}"
   with_first_found:
     - "{{ upstream.svc_name }}.conf.j2"
     - default.conf.j2
