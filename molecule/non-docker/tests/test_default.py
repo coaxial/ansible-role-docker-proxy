@@ -69,6 +69,8 @@ def test_proxy(host):
         ' && sleep 2 && curl -vL http://localhost'
         # ' && sudo docker inspect nginx-webapp'
         # ' && sudo docker inspect nginx-proxy'
+        ' && echo "127.0.0.1 test.example.org" >> /etc/hosts'
+        ' && curl -vL test.example.org'
         ' && echo "nginx-proxy logs:"'
         ' && sudo docker logs nginx-proxy'
         ' && echo "nginx-webapp logs:"'
