@@ -42,7 +42,7 @@ def test_override(host):
         'Content-length: 13\r\nContent-type: text/plain\r\n\r\n'
         'Hello world!\r\n" | nc -q 1 -l -p 1500;'
         ' done) &\''
-        'curl -vL http://test.example.org/'
+        ' && curl -vL test.example.org'
     )
     hello = host.check_output(
         # This is a minimal webserver that will answer with 200 OK
