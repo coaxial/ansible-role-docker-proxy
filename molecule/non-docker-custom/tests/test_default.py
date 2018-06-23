@@ -39,6 +39,7 @@ def test_override(host):
     hello = host.check_output(
         # This is a minimal webserver that will answer with 200 OK
         # and Hello world!
+        'ping -c 5 test.example.org && '
         'sh -c \'(while true; do printf "HTTP/1.1 200 OK\r\n'
         'Content-length: 13\r\nContent-type: text/plain\r\n\r\n'
         'Hello world!\r\n" | nc -q 1 -l -p 1500;'
