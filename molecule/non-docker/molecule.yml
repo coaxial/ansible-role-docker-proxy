@@ -1,0 +1,29 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint:
+  name: yamllint
+platforms:
+  - name: ubuntuXenial
+    image: solita/ubuntu-systemd:16.04
+    privileged: true
+    command: /sbin/init
+    capabilities:
+      - SYS_ADMIN
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+scenario:
+  name: non-docker
+  test_sequence: ['lint', 'destroy', 'dependency', 'syntax', 'create', 'prepare', 'converge', 'side_effect', 'verify', 'destroy']
+verifier:
+  name: testinfra
+  lint:
+    name: flake8
+    enabled: true

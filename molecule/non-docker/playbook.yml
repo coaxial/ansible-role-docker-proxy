@@ -8,10 +8,9 @@
     dp__le_email: test@example.org
     dp__le_test: true
     dp__upstream:
-      - port: 5000
+      - port: 1500
         svc_name: webapp
-        project_src: /opt/webapp
         vhost: test.example.org
-        is_container: true
+        is_container: false
   roles:
     - role: ansible-role-docker-proxy

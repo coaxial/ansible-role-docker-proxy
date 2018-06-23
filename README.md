@@ -32,9 +32,18 @@ Role Variables
     - port: 4567
       svc_name: webserver
       project_src: /opt/docker-app2/
+      vhost: www.example.org
+      is_container: true
     - port: 8900
       svc_name: app3
       project_src: /opt/docker-app3/
+      vhost: app3.example.org
+      is_container: true
+    # if the app to proxy isn't in a container, specify it this way:
+    - port: 9100  # port the webserver runs on
+      svc_name: prom_node_exporter  # a canonical name for the service
+      vhost: metrics.example.org
+      is_container: false
     ...
   ```
 
@@ -67,6 +76,12 @@ Role Variables
   Default value | Possible values | Purpose | Notes
   ---|---|---|---
   `300` | Any integer | The lets encrypt container needs to generate its DH params before it listens to upstream servers restarts and starts getting certs for them. This is the amount of time it takes to generate the DH params and for while the playbook's execution stops after starting the lets encrypt container. | It's possible this value is too high, so it can be overridden. The value is the number of seconds to wait for the lets encrypt container to start. For example, 120 seconds is usually enough on a 5$ DigitalOcean droplet.
+
+- ### `dp__nginx_config_dir`
+
+  Default value | Possible values | Purpose | Notes
+  ---|---|---|---
+  `/opt/non-docker-nginx` | any valid path | Where to keep the nginx proxy config files for non-docker upstream services
 
 Dependencies
 ------------
