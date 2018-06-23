@@ -44,7 +44,7 @@ def test_override(host):
         'Hello world!\r\n" | nc -q 1 -l -p 1500;'
         ' done) &\''
         # Query the minimal webserver through nginx-proxy
-        ' && curl -sfL test.example.org/hello/'
+        ' && curl -vL http://test.example.org/hello/'
     )
 
     nope = host.check_output(
