@@ -61,7 +61,8 @@ def test_proxy(host):
     host.run('sudo docker logs nginx-webapp')
     host.run(
         'sh -c \'(while true; do printf "HTTP/1.1 200 OK\r\n'
-        'Content-length: 13\r\n\r\nHello world!\r\n" | nc -q 1 -l -p 1500;'
+        'Content-length: 13\r\nContent-type: text/plain\r\n\r\n'
+        'Hello world!\r\n" | nc -q 1 -l -p 1500;'
         ' done) &\''
         # ' && docker restart nginx-proxy'
         # ' && sudo docker restart nginx-webapp'' && curl -vL http://localhost'
