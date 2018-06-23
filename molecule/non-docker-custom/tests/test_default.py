@@ -32,7 +32,7 @@ def test_nginx_proxy(host):
 
 
 def test_override(host):
-    host.run('sudo apt install curl netcat-openbsd -yq')
+    host.run('sudo apt install iputils-ping curl netcat-openbsd -yq')
     # Make test.example.org resolve so that it can be curled and nginx-proxy
     # knows which container to forward it to based on the headers
     host.run('echo "127.0.0.1 test.example.org" >> /etc/hosts')
@@ -45,10 +45,10 @@ def test_override(host):
         'Hello world!\r\n" | nc -q 1 -l -p 1500;'
         ' done) &\''
         # Query the minimal webserver through nginx-proxy
-        ' && curl -sfL http://test.example.org/hello/'
+        ' && curl -vL http://test.example.org/hello/'
     )
 
-    nope = host.check_output('curl -sfL http://test.example.org/')
+    nope = host.check_output('curl -vL http://test.example.org/')
 
     assert "Hello world!" in hello
     assert "These aren't the droids you're looking for" in nope
