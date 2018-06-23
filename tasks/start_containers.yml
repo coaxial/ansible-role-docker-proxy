@@ -63,7 +63,7 @@
     project_src: "{{ item.upstream.project_src }}"
     services: "{{ item.upstream.svc_name }}"
     # combine the docker-compose.*.yml files found for this project with
-    # the cusomer or default docker-compose.yml file
+    # the custom or default docker-compose.yml file
     files: "{{ item.files |map(attribute='path') |list + [item.upstream.doco |default('docker-compose.yml')] }}"
     # attach to new upstreams network
     recreate: always
