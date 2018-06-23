@@ -64,7 +64,7 @@ def test_proxy(host):
         'apt install inetutils-ping curl -yq && ping -c 5 172.18.0.1'
         ' && curl -vL 172.18.0.1:1500"'
         # ' && sleep 2 && curl -vL http://${GWIP}:1500'
-        # ' && sleep 2 && curl -vL http://localhost:1500'
+        ' && sleep 2 && curl -vL http://localhost:1500'
         ' && sleep 2 && curl -vL http://localhost'
         # ' && sudo docker inspect nginx-webapp'
         # ' && sudo docker inspect nginx-proxy'
