@@ -55,7 +55,7 @@ def test_proxy(host):
 
     # Make test.example.org resolve so that it can be curled and nginx-proxy
     # knows which container to forward it to based on the headers
-    host.run('127.0.0.1 test.example.org >> /etc/hosts')
+    host.run('echo "127.0.0.1 test.example.org" >> /etc/hosts')
 
     # host.run('sudo docker logs nginx-proxy')
     # host.run('sudo docker logs nginx-webapp')
@@ -87,7 +87,6 @@ def test_proxy(host):
     #     ' && echo "nginx-webapp logs:"'
     #     ' && sudo docker logs nginx-webapp'
     # )
-    # Query the minimal webserver through nginx-proxy
     webpage = host.check_output(
         # This is a minimal webserver that will answer with 200 OK
         # and Hello world!
@@ -95,6 +94,7 @@ def test_proxy(host):
         'Content-length: 13\r\nContent-type: text/plain\r\n\r\n'
         'Hello world!\r\n" | nc -q 1 -l -p 1500;'
         ' done) &\''
+        # Query the minimal webserver through nginx-proxy
         ' && curl -sfL test.example.org'
     )
     # webpage = host.check_output('curl -sfL http://localhost')
