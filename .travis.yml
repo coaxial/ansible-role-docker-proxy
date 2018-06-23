@@ -12,11 +12,12 @@ jobs:
         - pip install ansible
         - pip install docker-py
         - pip install molecule
-      script:
-        - molecule test
-    - <<: *test
-      script:
-        - molecule test --scenario-name non-docker
+    # - <<: *test
+    #   script:
+    #     - molecule test
+    # - <<: *test
+    #   script:
+    #     - molecule test --scenario-name non-docker
     - <<: *test
       script:
         - molecule --debug test --scenario-name non-docker-custom

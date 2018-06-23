@@ -5,7 +5,7 @@ server {
     proxy_pass http://{{ _dp__docker_gw_ip.stdout }}:{{ upstream.port }};
 
   location / {
-    return 200 "These aren't the droids you're looking for";
+    return 200 'These aren\'t the droids you\'re looking for';
   }
 
   }
