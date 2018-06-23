@@ -1,7 +1,7 @@
 server {
-  listen 80:
+  listen 80;
 
   location / {
-    proxy_pass http://{{ _dp__docker_gw_ip.stdout }}:{{ item.port }}
+    proxy_pass http://{{ _dp__docker_gw_ip.stdout }}:{{ item.port }};
   }
 }
