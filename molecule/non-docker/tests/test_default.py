@@ -58,7 +58,7 @@ def test_proxy(host):
         'sh -c \'(while true; do printf "HTTP/1.1 200 OK\r\n'
         'Content-length: 13\r\n\r\nHello world!\r\n" | nc -q 1 -l -p 1500;'
         ' done) &\''
-        ' && docker restart nginx-proxy'
+        # ' && docker restart nginx-proxy'
         # ' && sudo docker restart nginx-webapp'' && curl -vL http://localhost'
         # ' && export GWIP=`{% raw -%}docker network inspect bridge --format '
         # '\'{{range .IPAM.Config}}{{.Gateway}}{{end}}\'{% endraw -%}`'
