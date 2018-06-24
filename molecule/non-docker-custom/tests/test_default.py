@@ -48,15 +48,15 @@ def test_override(host):
         'sh -c \'' + webserver + '\''
         ' && curl -sfL test.example.org'
     )
-    hello = host.check_output(
-        'sh -c \'' + webserver + '\''
-        ' && curl -sfL test.example.org'
-        # Query the minimal webserver through nginx-proxy
-        ' && curl -sfL http://test.example.org/hello/'
-    )
+    # hello = host.check_output(
+    #     'sh -c \'' + webserver + '\''
+    #     ' && curl -sfL test.example.org'
+    #     # Query the minimal webserver through nginx-proxy
+    #     ' && curl -sfL http://test.example.org/hello/'
+    # )
 
     assert "These aren't the droids you're looking for" in nope
-    assert "Hello world!" in hello
+    # assert "Hello world!" in hello
 
 
 def test_ssl_certs_volume(host):
