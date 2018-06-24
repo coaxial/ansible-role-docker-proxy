@@ -7,13 +7,15 @@ testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
 
 # This is a minimal webserver that will answer with 200 OK and Hello world!
 webserver = (
-    '(while true; do printf "'
+    # '(while true; do printf "'
+    '(printf "'
     'HTTP/1.1 200 OK\r\n'
     'Content-length: 13\r\n'
     'Content-type: text/plain\r\n\r\n'
     'Hello world!\r\n'
     '" | nc -q 1 -l -p 1500;'
-    ' done) &'
+    ') &'
+    # ' done) &'
 )
 
 
@@ -52,7 +54,6 @@ def test_override(host):
         'sh -c \'' + webserver + '\''
         ' && curl -sfL test.example.org'
     )
-    host.run('kill %1')
 
     assert "These aren't the droids you're looking for" in nope
 
