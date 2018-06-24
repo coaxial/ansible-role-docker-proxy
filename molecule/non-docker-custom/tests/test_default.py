@@ -52,16 +52,17 @@ def test_override(host):
         'sh -c \'' + webserver + '\''
         ' && curl -sfL test.example.org'
     )
+    host.run('kill %1')
 
     assert "These aren't the droids you're looking for" in nope
 
 
 def test_proxy(host):
     hello = host.check_output(
-        # 'sh -c \'' + webserver + '\''
-        # # Query the minimal webserver through nginx-proxy
-        # ' && curl -sfL http://test.example.org/hello/'
-        'curl -sfL http://test.example.org/hello/'
+        'sh -c \'' + webserver + '\''
+        # Query the minimal webserver through nginx-proxy
+        ' && curl -sfL http://test.example.org/hello/'
+        # 'curl -sfL http://test.example.org/hello/'
     )
 
     assert "Hello world!" in hello
