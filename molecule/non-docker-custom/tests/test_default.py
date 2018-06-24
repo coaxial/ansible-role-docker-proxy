@@ -13,7 +13,7 @@ webserver = (
     'Content-length: 13\r\n'
     'Content-type: text/plain\r\n\r\n'
     'Hello world!\r\n'
-    '" | nc -q 1 -p 1500;'
+    '" | nc -q 1 -l 1500;'
     ') &'
     # ' done) &'
 )
