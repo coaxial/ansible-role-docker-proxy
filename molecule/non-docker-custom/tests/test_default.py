@@ -5,6 +5,17 @@ import testinfra.utils.ansible_runner
 testinfra_hosts = testinfra.utils.ansible_runner.AnsibleRunner(
     os.environ['MOLECULE_INVENTORY_FILE']).get_hosts('all')
 
+# This is a minimal webserver that will answer with 200 OK and Hello world!
+webserver = (
+    '(while true; do printf "'
+    'HTTP/1.1 200 OK\r\n'
+    'Content-length: 13\r\n'
+    'Content-type: text/plain\r\n\r\n'
+    'Hello world!\r\n'
+    '" | nc -q 1 -l -p 1500;'
+    ' done) &'
+)
+
 
 def test_firewall(host):
     r = host.iptables.rules('filter', 'DOCKER-USER')
@@ -32,16 +43,6 @@ def test_nginx_proxy(host):
 
 
 def test_override(host):
-    # This is a minimal webserver that will answer with 200 OK and Hello world!
-    webserver = (
-        '(while true; do printf "'
-        'HTTP/1.1 200 OK\r\n'
-        'Content-length: 13\r\n'
-        'Content-type: text/plain\r\n\r\n'
-        'Hello world!\r\n'
-        '" | nc -q 1 -l -p 1500;'
-        ' done) &'
-    )
     host.run('sudo apt install curl netcat-openbsd -yq')
     # Make test.example.org resolve so that it can be curled and nginx-proxy
     # knows which container to forward it to based on the headers
@@ -52,14 +53,16 @@ def test_override(host):
         ' && curl -sfL test.example.org'
     )
 
-    hello = host.check_output('curl -sfL http://test.example.org/hello/')
-    # hello = host.check_output(
-    #     'sh -c \'' + webserver + '\''
-    #     # Query the minimal webserver through nginx-proxy
-    #     ' && curl -sfL http://test.example.org/hello/'
-    # )
-
     assert "These aren't the droids you're looking for" in nope
+
+
+def test_proxy(host):
+    hello = host.check_output(
+        'sh -c \'' + webserver + '\''
+        # Query the minimal webserver through nginx-proxy
+        ' && curl -sfL http://test.example.org/hello/'
+    )
+
     assert "Hello world!" in hello
 
 
