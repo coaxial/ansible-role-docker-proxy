@@ -4,7 +4,7 @@
     src: "{{ item }}"
     dest: "{{ dp__nginx_config_dir }}/{{ upstream.svc_name }}.conf"
     mode: 0755
-    validate: sudo docker run --rm -v %s:/conf/default.conf nginx sh -c 'nginx -t -c /conf/default.conf'
+    validate: sudo docker run --rm -v %s:/etc/nginx/conf.d/default.conf nginx sh -c 'nginx -t -c /etc/nginx/nginx.conf'
   with_first_found:
     - "{{ upstream.svc_name }}.conf.j2"
     - default.conf.j2
