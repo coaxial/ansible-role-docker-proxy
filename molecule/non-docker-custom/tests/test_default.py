@@ -34,9 +34,12 @@ def test_nginx_proxy(host):
 def test_override(host):
     # This is a minimal webserver that will answer with 200 OK and Hello world!
     webserver = (
-        '(while true; do printf "HTTP/1.1 200 OK\r\n'
-        'Content-length: 13\r\nContent-type: text/plain\r\n\r\n'
-        'Hello world!\r\n" | nc -q 1 -l -p 1500;'
+        '(while true; do printf "'
+        'HTTP/1.1 200 OK\r\n'
+        'Content-length: 13\r\n'
+        'Content-type: text/plain\r\n\r\n'
+        'Hello world!\r\n'
+        '" | nc -q 1 -l -p 1500;'
         ' done) &'
     )
     host.run('sudo apt install curl netcat-openbsd -yq')
@@ -48,15 +51,16 @@ def test_override(host):
         'sh -c \'' + webserver + '\''
         ' && curl -sfL test.example.org'
     )
+
+    hello = host.check_output('curl -sfL http://test.example.org/hello/')
     # hello = host.check_output(
     #     'sh -c \'' + webserver + '\''
-    #     ' && curl -sfL test.example.org'
     #     # Query the minimal webserver through nginx-proxy
     #     ' && curl -sfL http://test.example.org/hello/'
     # )
 
     assert "These aren't the droids you're looking for" in nope
-    # assert "Hello world!" in hello
+    assert "Hello world!" in hello
 
 
 def test_ssl_certs_volume(host):
