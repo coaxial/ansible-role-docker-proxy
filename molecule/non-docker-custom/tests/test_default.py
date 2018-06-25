@@ -63,7 +63,7 @@ def test_proxy(host):
         # 'curl -sfL http://test.example.org/hello/'
     )
 
-    assert "Hello world!" in hello
+    assert "Hello wrld!" in hello
 
 
 def test_ssl_certs_volume(host):
