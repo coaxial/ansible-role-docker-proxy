@@ -46,7 +46,7 @@
     networks:
       - name: "{{ dp__network_name }}"
     # volumes are in a file because htpasswd is optional
-    volumes: "{{ lookup('file', dp__nginx_config_dir/item.svc_name |join('.htpasswd')) }}"
+    volumes: "{{ lookup('file', dp__nginx_config_dir/item.svc_name+'.htpasswd') }}"
     restart_policy: always
   with_items: "{{ dp__upstream }}"
   loop_control:
