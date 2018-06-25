@@ -1,0 +1,4 @@
+- {{ dp__nginx_config_dir }}/{{ item.svc_name }}.conf:/etc/nginx/conf.d/default.conf:ro
+{% if item.htpasswd_enable -%}
+- {{ dp__nginx_config_dir }}/{{ item.svc_name }}.htpasswd:/etc/nginx/.htpasswd:ro
+{% endif -%}

@@ -1,0 +1,7 @@
+VIRTUAL_HOST={{ item.vhost }}
+VIRTUAL_PORT=80
+{% if not item.is_container and dp__le_enable -%}
+LETSENCRYPT_HOST={{ item.vhost }}
+LETSENCRYPT_EMAIL={{ dp__le_email }}
+LETSENCRYPT_TEST={{ dp__le_test }}
+{% endif -%}
