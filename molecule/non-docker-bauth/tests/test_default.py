@@ -45,7 +45,12 @@ def test_nginx_proxy(host):
 
 
 def test_basic_auth_fail(host):
-    assert host.run_expect(67, 'curl -sfL http://test.example.org/nope/')
+    CURL_FAILED_LOGIN_RC = 67
+
+    assert host.run_expect(
+        CURL_FAILED_LOGIN_RC,
+        'curl -sfL http://test.example.org/nope/'
+    )
 
 
 def test_basic_auth(host):

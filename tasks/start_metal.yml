@@ -24,7 +24,7 @@
     user: "{{ item.bauth_user }}"
     password: "{{ item.bauth_passwd }}"
   with_items: "{{ dp__upstream}}"
-  when: item.bauth_enable and not item.is_container
+  when: item.bauth_enable is defined and item.bauth_enable and not item.is_container
 
 - name: Compose envfile
   template:
