@@ -50,10 +50,7 @@ def test_override(host):
     # knows which container to forward it to based on the headers
     host.run('echo "127.0.0.1 test.example.org" >> /etc/hosts')
 
-    nope = host.check_output(
-        'sh -c \'' + webserver + '\''
-        ' && curl -sfL test.example.org'
-    )
+    nope = host.check_output('curl -sfL test.example.org')
 
     assert "These aren't the droids you're looking for" in nope
 
