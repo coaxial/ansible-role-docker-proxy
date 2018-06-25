@@ -20,7 +20,7 @@ provisioner:
   lint:
     name: ansible-lint
 scenario:
-  name: non-docker-custom
+  name: custom
   test_sequence: ['lint', 'destroy', 'dependency', 'syntax', 'create', 'prepare', 'converge', 'side_effect', 'verify', 'destroy']
 verifier:
   name: testinfra
