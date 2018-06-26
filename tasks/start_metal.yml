@@ -35,7 +35,7 @@
 - name: Compose volumes
   template:
     src: nginx-volumes.j2
-    dest: "{{ dp__nginx_config_dir }}/{{ item.svc_name }}.envfile"
+    dest: "{{ dp__nginx_config_dir }}/{{ item.svc_name }}.volumes"
   with_items: "{{ dp__upstream }}"
 
 - name: Proxy non-docker webservers
@@ -46,7 +46,7 @@
     networks:
       - name: "{{ dp__network_name }}"
     # volumes are in a file because htpasswd is optional
-    volumes: "{{ lookup('file', dp__nginx_config_dir+'/'+item.svc_name+'.htpasswd') }}"
+    volumes: "{{ lookup('file', dp__nginx_config_dir+'/'+item.svc_name+'volumes') }}"
     restart_policy: always
   with_items: "{{ dp__upstream }}"
   loop_control:
