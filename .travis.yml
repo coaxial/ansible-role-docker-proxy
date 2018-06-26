@@ -16,7 +16,7 @@ jobs:
         - molecule test
     - <<: *test
       script:
-        - molecule test --scenario-name metal
+        - molecule --debug test --scenario-name metal
     - <<: *test
       script:
         - molecule test --scenario-name custom
