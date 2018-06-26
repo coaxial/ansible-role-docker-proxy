@@ -2,7 +2,7 @@ server {
   listen 80;
 
   location / {
-    {% if upstream.bauth_enable is defined and upstread.bauth_enable -%}
+    {% if upstream.bauth_enable is defined and upstream.bauth_enable -%}
     auth_basic "Restricted";
     auth_basic_user_file /etc/nginx/.htpasswd;
     {% endif -%}
