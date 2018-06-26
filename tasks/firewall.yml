@@ -22,6 +22,7 @@
   with_items: "{{ dp__upstream }}"
   loop_control:
     loop_var: upstream
+    label: upstream.svc_name
   changed_when: false
 
 - name: debug
@@ -39,3 +40,4 @@
     jump: ACCEPT
   notify: persist iptables
   with_items: "{{ metal_proxies_ips }}"
+  when: not item.upstream.is_container
