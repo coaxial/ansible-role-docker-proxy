@@ -46,6 +46,7 @@
   register: volumes
   loop_control:
     loop_var: upstream
+  when: not upstream.is_container
 
 - name: Proxy non-docker webservers
   docker_container:
