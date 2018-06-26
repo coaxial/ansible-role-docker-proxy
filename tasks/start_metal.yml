@@ -50,6 +50,7 @@
   with_items: "{{ dp__upstream }}"
   register: volumes
   loop_control:
+    label: "{{ upstream.svc_name }}"
     loop_var: upstream
   when: not upstream.is_container
 
@@ -68,7 +69,7 @@
     # volumes are in a file because htpasswd is optional
     volumes: "{{ item.volumes['content'] |b64decode }}"
     restart_policy: always
-  with_items: "{{ volumes }}"
+  with_items: "{{ volumes.results }}"
   loop_control:
     label: "{{ item.upstream.svc_name }}"
-  when: volumes is defined and not item.upstream.is_container
+  when: not item.upstream.is_container
