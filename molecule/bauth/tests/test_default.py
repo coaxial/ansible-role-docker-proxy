@@ -56,10 +56,16 @@ def test_basic_auth_fail(host):
     # Make test.example.org resolve so that it can be curled and nginx-proxy
     # knows which container to forward it to based on the headers
     host.run('echo "127.0.0.1 test.example.org" >> /etc/hosts')
+    HTTP_UNAUTHORIZED_RESPONSE_CODE = "401"
 
-    nope = host.check_output('curl -sL http://test.example.org/nope/')
+    # Get the HTTP response code only from the requrest
+    nope = host.check_output(
+        '{% raw %}'
+        "curl -sfLw '%{response_code}' http://test.example.org/nope/"
+        '{% endraw %}'
+    )
 
-    assert "401 Authorization Required" in nope
+    assert HTTP_UNAUTHORIZED_RESPONSE_CODE in nope
 
 
 def test_basic_auth(host):
