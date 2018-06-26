@@ -61,7 +61,7 @@
 
 - name: debug
   debug:
-    msg: "{{ volumes['content'] |b64decode |to_yaml }}"
+    msg: "{{ volumes.results['content'] |b64decode |to_yaml }}"
   when: volumes is defined
 
 - name: Proxy non-docker webservers
