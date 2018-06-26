@@ -21,7 +21,7 @@
 - name: Configure basic auth
   htpasswd:
     path: "{{ dp__nginx_config_dir }}/{{ item.svc_name }}.htpasswd"
-    user: "{{ item.bauth_user }}"
+    name: "{{ item.bauth_user }}"
     password: "{{ item.bauth_passwd }}"
   with_items: "{{ dp__upstream}}"
   when: item.bauth_enable is defined and item.bauth_enable and not item.is_container
