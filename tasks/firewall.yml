@@ -39,5 +39,5 @@
     destination_port: "{{ item.upstream.port }}"
     jump: ACCEPT
   notify: persist iptables
-  with_items: "{{ metal_proxies_ips }}"
+  with_items: "{{ metal_proxies_ips.results }}"
   when: not item.upstream.is_container
