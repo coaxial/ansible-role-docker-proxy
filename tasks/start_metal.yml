@@ -53,6 +53,11 @@
     loop_var: upstream
   when: not upstream.is_container
 
+- name: debug
+  debug:
+    msg: "{{ volumes }}"
+  when: volumes is defined
+
 - name: Proxy non-docker webservers
   docker_container:
     image: nginx
