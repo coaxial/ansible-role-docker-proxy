@@ -44,22 +44,12 @@ def test_nginx_proxy(host):
     assert t.mode == 0o400
 
 
-def test_basic_auth(host):
+def test_basic_auth_fail(host):
     host.run('sudo apt install curl netcat-openbsd -yq')
     # Make test.example.org resolve so that it can be curled and nginx-proxy
     # knows which container to forward it to based on the headers
     host.run('echo "127.0.0.1 test.example.org" >> /etc/hosts')
 
-    hello = host.check_output(
-        'sh -c \'' + webserver + '\''
-        # Query the minimal webserver through nginx-proxy
-        ' && curl -u testuser:testpass -sfL http://test.example.org/'
-    )
-
-    assert "Hello world!" in hello
-
-
-def test_basic_auth_fail(host):
     # cf. https://ec.haxx.se/usingcurl-returns.html
     CURL_FAILED_LOGIN_RC = 67
 
@@ -67,6 +57,16 @@ def test_basic_auth_fail(host):
         [CURL_FAILED_LOGIN_RC],
         'curl -sfL http://test.example.org/nope/'
     )
+
+
+def test_basic_auth(host):
+    hello = host.check_output(
+        'sh -c \'' + webserver + '\''
+        # Query the minimal webserver through nginx-proxy
+        ' && curl -u testuser:testpass -sfL http://test.example.org/'
+    )
+
+    assert "Hello world!" in hello
 
 
 def test_ssl_certs_volume(host):
