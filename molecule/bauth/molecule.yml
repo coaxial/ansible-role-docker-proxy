@@ -21,7 +21,7 @@ provisioner:
     name: ansible-lint
 scenario:
   name: bauth
-  test_sequence: ['lint', 'destroy', 'dependency', 'syntax', 'create', 'prepare', 'converge', 'side_effect', 'verify', 'destroy']
+  # test_sequence: ['lint', 'destroy', 'dependency', 'syntax', 'create', 'prepare', 'converge', 'side_effect', 'verify', 'destroy']
 verifier:
   name: testinfra
   lint:
