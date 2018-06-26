@@ -61,6 +61,7 @@
     env_file: "{{ dp__nginx_config_dir }}/{{ item.upstream.svc_name }}.envfile"
     networks:
       - name: "{{ dp__network_name }}"
+    purge_networks: true
     # volumes are in a file because htpasswd is optional
     volumes: "{{ item['content'] |b64decode |from_yaml }}"
     restart_policy: always
