@@ -44,15 +44,6 @@ def test_nginx_proxy(host):
     assert t.mode == 0o400
 
 
-def test_basic_auth_fail(host):
-    CURL_FAILED_LOGIN_RC = 67
-
-    assert host.run_expect(
-        CURL_FAILED_LOGIN_RC,
-        'curl -sfL http://test.example.org/nope/'
-    )
-
-
 def test_basic_auth(host):
     host.run('sudo apt install curl netcat-openbsd -yq')
     # Make test.example.org resolve so that it can be curled and nginx-proxy
@@ -66,6 +57,16 @@ def test_basic_auth(host):
     )
 
     assert "Hello world!" in hello
+
+
+def test_basic_auth_fail(host):
+    # cf. https://ec.haxx.se/usingcurl-returns.html
+    CURL_FAILED_LOGIN_RC = 67
+
+    assert host.run_expect(
+        [CURL_FAILED_LOGIN_RC],
+        'curl -sfL http://test.example.org/nope/'
+    )
 
 
 def test_ssl_certs_volume(host):
