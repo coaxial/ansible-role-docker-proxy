@@ -4,7 +4,7 @@ server {
   location /nope/ {
     auth_basic "Restricted";
     auth_basic_user_file /etc/nginx/.htpasswd;
-    return 200 "I am the one who knocks";
+    return 200 'I am the one who knocks';
   }
 
   location / {
