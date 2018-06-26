@@ -44,6 +44,13 @@ def test_nginx_proxy(host):
     assert t.mode == 0o400
 
 
+def test_htpasswd_file(host):
+    f = host.file('/opt/non-docker-nginx/webapp.htpasswd')
+
+    assert f.exists
+    assert f.contains('testuser')
+
+
 def test_basic_auth_fail(host):
     host.run('sudo apt install curl netcat-openbsd -yq')
     # Make test.example.org resolve so that it can be curled and nginx-proxy
