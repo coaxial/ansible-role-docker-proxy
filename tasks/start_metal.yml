@@ -63,7 +63,7 @@
   debug:
     msg: "{{ item['content'] |b64decode |to_yaml }}"
   with_items: "{{ volumes.results }}"
-  when: not item.is_container
+  when: not item.upstream.is_container
 
 - name: Proxy non-docker webservers
   docker_container:
