@@ -46,3 +46,6 @@
   wait_for:
     timeout: "{{ dp__le_timeout }}"
   when: dp__le_enable and not dp__testing and le_cont_start.changed
+  # This is fine and doesn't need to be a handler
+  tags:
+    - skip_ansible_lint
