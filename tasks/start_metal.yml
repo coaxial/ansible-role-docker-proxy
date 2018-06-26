@@ -18,6 +18,11 @@
   loop_control:
     loop_var: upstream
 
+- name: Make sure passlib is present
+  pip:
+    name: passlib
+  when: dp__upstream |selectattr("is_container", "equalto", true)
+
 - name: Configure basic auth
   htpasswd:
     path: "{{ dp__nginx_config_dir }}/{{ item.svc_name }}.htpasswd"
@@ -61,4 +66,4 @@
   with_items: "{{ volumes }}"
   loop_control:
     label: "{{ item.upstream.svc_name }}"
-  when: not item.upstream.is_container
+  when: volumes is defined and not item.upstream.is_container
