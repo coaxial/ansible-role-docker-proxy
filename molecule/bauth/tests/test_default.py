@@ -57,20 +57,16 @@ def test_basic_auth_fail(host):
     # knows which container to forward it to based on the headers
     host.run('echo "127.0.0.1 test.example.org" >> /etc/hosts')
 
-    # cf. https://ec.haxx.se/usingcurl-returns.html
-    CURL_FAILED_LOGIN_RC = 67
+    nope = host.check_output('curl -sL http://test.example.org/nope/')
 
-    assert host.run_expect(
-        [CURL_FAILED_LOGIN_RC],
-        'curl -sfL http://test.example.org/nope/'
-    )
+    assert "401 Authorization Required" in nope
 
 
 def test_basic_auth(host):
     hello = host.check_output(
         'sh -c \'' + webserver + '\''
         # Query the minimal webserver through nginx-proxy
-        ' && curl -u testuser:testpass -sfL http://test.example.org/nope/'
+        ' && curl -u testuser:testpass -sL http://test.example.org/webapp/'
     )
 
     assert "Hello world!" in hello
