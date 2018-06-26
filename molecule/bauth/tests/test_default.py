@@ -70,7 +70,7 @@ def test_basic_auth(host):
     hello = host.check_output(
         'sh -c \'' + webserver + '\''
         # Query the minimal webserver through nginx-proxy
-        ' && curl -u testuser:testpass -sfL http://test.example.org/'
+        ' && curl -u testuser:testpass -sfL http://test.example.org/nope/'
     )
 
     assert "Hello world!" in hello
