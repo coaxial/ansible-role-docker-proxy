@@ -18,6 +18,7 @@
 - name: Get container IP for metal proxies
   command: "docker inspect nginx-{{ upstream.svc_name }} -f '{% raw %}{{{% endraw %}.NetworkSettings.Networks.{{ dp__network_name }}.IPAddress{% raw %}}}{% endraw %}'"
   register: metal_proxies_ips
+  when: not upstream.is_container
   with_items: "{{ dp__upstream }}"
   loop_control:
     loop_var: upstream
