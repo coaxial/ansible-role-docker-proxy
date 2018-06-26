@@ -59,6 +59,11 @@
     msg: "{{ volumes }}"
   when: volumes is defined
 
+- name: debug
+  debug:
+    msg: "{{ volumes['content'] |b64decode |to_yaml }}"
+  when: volumes is defined
+
 - name: Proxy non-docker webservers
   docker_container:
     image: nginx
@@ -67,7 +72,7 @@
     networks:
       - name: "{{ dp__network_name }}"
     # volumes are in a file because htpasswd is optional
-    volumes: "{{ item['content'] |b64decode }}"
+    volumes: "{{ item['content'] |b64decode |to_yaml }}"
     restart_policy: always
   with_items: "{{ volumes.results }}"
   loop_control:
