@@ -37,18 +37,27 @@
     src: nginx-volumes.j2
     dest: "{{ dp__nginx_config_dir }}/{{ item.svc_name }}.volumes.yml"
   with_items: "{{ dp__upstream }}"
+  when: not item.is_container
+
+- name: Slurp volumes files
+  slurp:
+    src: "{{ dp__nginx_config_dir }}/{{ item.svc_name }}.volumes.yml"
+  with_items: "{{ dp__upstream }}"
+  register: volumes
+  loop_control:
+    loop_var: upstream
 
 - name: Proxy non-docker webservers
   docker_container:
     image: nginx
-    name: "nginx-{{ item.svc_name }}"
-    env_file: "{{ dp__nginx_config_dir }}/{{ item.svc_name }}"
+    name: "nginx-{{ item.upstream.svc_name }}"
+    env_file: "{{ dp__nginx_config_dir }}/{{ item.upstream.svc_name }}.envfile"
     networks:
       - name: "{{ dp__network_name }}"
     # volumes are in a file because htpasswd is optional
-    volumes: "{{ lookup('file', dp__nginx_config_dir+'/'+item.svc_name+'.volumes.yml') }}"
+    volumes: "{{ item.volumes['content'] |b64decode }}"
     restart_policy: always
-  with_items: "{{ dp__upstream }}"
+  with_items: "{{ volumes }}"
   loop_control:
-    label: "{{ item.svc_name }}"
-  when: not item.is_container
+    label: "{{ item.upstream.svc_name }}"
+  when: not item.upstream.is_container
