@@ -58,10 +58,11 @@ def test_basic_auth_fail(host):
     host.run('echo "127.0.0.1 test.example.org" >> /etc/hosts')
     HTTP_UNAUTHORIZED_RESPONSE_CODE = "401"
 
-    # Get the HTTP response code only from the requrest
     nope = host.check_output(
         '{% raw %}'
-        "curl -sfLw '%{response_code}' http://test.example.org/nope/"
+        # we only want the response code
+        "curl -o /dev/null -sfLw '%{response_code}'"
+        'http://test.example.org/nope/'
         '{% endraw %}'
     )
 
