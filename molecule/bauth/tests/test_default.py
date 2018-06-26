@@ -62,7 +62,7 @@ def test_basic_auth_fail(host):
         '{% raw %}'
         # we only want the response code
         "curl -o /dev/null -sLw '%{response_code}' "
-        'http://test.example.org/nope/'
+        'http://test.example.org/'
         '{% endraw %}'
     )
 
@@ -73,7 +73,7 @@ def test_basic_auth(host):
     hello = host.check_output(
         'sh -c \'' + webserver + '\''
         # Query the minimal webserver through nginx-proxy
-        ' && curl -u testuser:testpass -sL http://test.example.org/webapp/'
+        ' && curl -u testuser:testpass -sL http://test.example.org/'
     )
 
     assert "Hello world!" in hello
