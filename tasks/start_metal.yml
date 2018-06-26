@@ -61,7 +61,7 @@
 
 - name: debug
   debug:
-    msg: "{{ item['content'] |b64decode }}"
+    msg: "{{ item['content'] |b64decode |from_yaml }}"
   with_items: "{{ volumes.results }}"
   when: not item.upstream.is_container
 
