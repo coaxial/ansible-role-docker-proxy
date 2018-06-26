@@ -21,15 +21,20 @@
   with_items: "{{ dp__upstream }}"
   loop_control:
     loop_var: upstream
+  changed_when: false
 
 - name: debug
   debug:
     msg: "{{ metal_proxies_ips }}"
 
-# - name: Open path from metal proxies to local servers
-#   iptables:
-#     action: insert
-#     chain: INPUT
-#     protocol: tcp
-#     in_interface: docker0
-#     destination: "{{ item.stdout }}"
+- name: Open path from metal proxies to local servers
+  iptables:
+    action: insert
+    chain: INPUT
+    protocol: tcp
+    in_interface: docker0
+    destination: "{{ item.stdout }}"
+    destination_port: "{{ item.upstream.port }}"
+    jump: ACCEPT
+  notify: persist iptables
+  with_items: "{{ metal_proxies_ips }}"
