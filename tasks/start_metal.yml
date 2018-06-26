@@ -67,7 +67,7 @@
     networks:
       - name: "{{ dp__network_name }}"
     # volumes are in a file because htpasswd is optional
-    volumes: "{{ item.volumes['content'] |b64decode }}"
+    volumes: "{{ item['content'] |b64decode }}"
     restart_policy: always
   with_items: "{{ volumes.results }}"
   loop_control:

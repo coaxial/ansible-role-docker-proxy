@@ -16,13 +16,13 @@ jobs:
         - molecule test
     - <<: *test
       script:
-        - molecule --debug test --scenario-name metal
+        - molecule test --scenario-name metal
     - <<: *test
       script:
         - molecule test --scenario-name custom
     - <<: *test
       script:
-        - molecule --debug test --scenario-name bauth
+        - molecule test --scenario-name bauth
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
