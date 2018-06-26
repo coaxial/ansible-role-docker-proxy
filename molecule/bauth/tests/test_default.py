@@ -61,7 +61,7 @@ def test_basic_auth_fail(host):
     nope = host.check_output(
         '{% raw %}'
         # we only want the response code
-        "curl -o /dev/null -sfLw '%{response_code}'"
+        "curl -o /dev/null -sLw '%{response_code}'"
         'http://test.example.org/nope/'
         '{% endraw %}'
     )
