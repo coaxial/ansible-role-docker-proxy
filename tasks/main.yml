@@ -1,7 +1,7 @@
 ---
 - include_tasks: load_vars.yml
 - include_tasks: setup_containers.yml
+- include_tasks: firewall.yml
 - include_tasks: start_common.yml
 - include_tasks: start_docker.yml
 - include_tasks: start_metal.yml
-- include_tasks: firewall.yml
