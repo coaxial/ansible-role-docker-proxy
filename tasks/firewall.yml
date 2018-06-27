@@ -17,28 +17,10 @@
     label: item.svc_name
   with_items: "{{ dp__upstream }}"
 
-# - name: Get container IP for metal proxies
-#   command: "docker inspect nginx-{{ upstream.svc_name }} -f '{% raw %}{{{% endraw %}.NetworkSettings.Networks.{{ dp__network_name }}.IPAddress{% raw %}}}{% endraw %}'"
-#   register: metal_proxies_ips
-#   when: not upstream.is_container
-#   with_items: "{{ dp__upstream }}"
-#   loop_control:
-#     loop_var: upstream
-#     label: upstream.svc_name
-#   changed_when: false
-
-# - name: debug
-#   debug:
-#     msg: "{{ metal_proxies_ips }}"
-
 - name: "Get {{ dp__network_name }}'s gateway"
   command: "docker network inspect {{ dp__network_name }} --format {% raw -%}'{{range .IPAM.Config}}{{.Gateway}}{{end}}'{% endraw -%}"
   changed_when: false
   register: _dp__network_gateway
-
-- name: debug
-  debug:
-    msg: "{{ _dp__network_gateway }}"
 
 - name: "Get {{ dp__network_name }}'s subnet"
   command: "docker inspect {{ dp__network_name }} -f {% raw -%}'{{range .IPAM.Config}}{{.Subnet}}{{end}}'{% endraw -%}"
