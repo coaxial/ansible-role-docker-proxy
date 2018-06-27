@@ -15,7 +15,7 @@
 
 - name: Save gateway IP as fact
   set_fact:
-    docker: "{{ network.stdout }}_gateway_ip: {{ _dp__docker_gw_ip }}"
+    docker: "{{ item.network }}_gateway_ip: {{ item.stdout }}"
   with_items: "{{ _dp__docker_gw_ip.results }}"
   loop_control:
     label: network.stdout
