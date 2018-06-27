@@ -13,9 +13,15 @@
   debug:
     msg: "{{ _dp__docker_gw_ip }}"
 
+- name: debug
+  debug:
+    msg: "{{ stdout }}"
+  with_items: "{{ _dp__docker_gw_ip }}"
+
 - name: Save gateway IP as fact
-  set_fact:
-    docker: "{{ item.network }}_gateway_ip: {{ item.stdout }}"
+  set_fact: {
+    "{{ item.network }}_gateway_ip": "{{ item.stdout }}"
+  }
   with_items: "{{ _dp__docker_gw_ip.results }}"
   loop_control:
     label: network.stdout
