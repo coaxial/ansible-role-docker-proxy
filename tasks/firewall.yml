@@ -35,7 +35,6 @@
     chain: INPUT
     protocol: tcp
     in_interface: docker0
-    source: "{{ item.stdout }}"
     destination: "{{ dp__network_gateway_ip }}"
     destination_port: "{{ item.upstream.port }}"
     jump: ACCEPT
