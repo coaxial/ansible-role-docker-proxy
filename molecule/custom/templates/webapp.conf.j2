@@ -2,7 +2,7 @@ server {
   listen 80;
 
   location /hello/ {
-    proxy_pass http://{{ dp__network_name }}:{{ upstream.port }};
+    proxy_pass http://{{ dp__network_gateway_ip }}:{{ upstream.port }};
   }
 
   location / {
