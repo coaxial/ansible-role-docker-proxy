@@ -16,7 +16,7 @@
 - name: debug
   debug:
     msg: "{{ stdout }}"
-  with_items: "{{ _dp__docker_gw_ip }}"
+  with_items: "{{ _dp__docker_gw_ip.results }}"
 
 - name: Save gateway IP as fact
   set_fact: {
