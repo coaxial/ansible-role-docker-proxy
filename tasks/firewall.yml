@@ -35,7 +35,7 @@
     chain: INPUT
     protocol: tcp
     in_interface: docker0
-    destination: "{{ item.stdout }}"
+    source: "{{ item.stdout }}"
     destination_port: "{{ item.upstream.port }}"
     jump: ACCEPT
   notify: persist iptables
