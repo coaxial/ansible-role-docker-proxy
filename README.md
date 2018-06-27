@@ -51,7 +51,7 @@ Role Variables
 
   This variable describes the services to reverse-proxy. They can either be running within docker containers (`is_container` set to `true`) or directly on the host (must be accessible via localhost:port, `is_container` set to `false`.)
 
-  For non-docker (a.k.a. "metal") services, a custom server configuration file can be used. This is optional, it will use `templates/default.conf.j2` by default. To override, create a file a `templates/{{ upstream.svc_name }}.conf.j2` and  the role will pick it up for that service. Note that the role expects the custom nginx server to listen on port 80, and you can use `dp__network_gateway_ip` for the docker host's gateway IP address to communicate with a service running on the docker host. See the tests at `molecule/{custom,bauth}` for more context.
+  For non-docker (a.k.a. "metal") services, a custom server configuration file can be used. This is optional, it will use `templates/default.conf.j2` by default. To override, create a file a `templates/{{ upstream.svc_name }}.conf.j2` and  the role will pick it up for that service. Note that the role expects the custom nginx server to listen on port 80, and you can use `dp__network_gateway` for the docker host's gateway IP address to communicate with a service running on the docker host. See the tests at `molecule/{custom,bauth}` for more context.
 
   To protect a "metal" service with basic auth, set `bauth_enable` to `true`, define the username as `bauth_user` and the password as `bauth_passwd`. This will generate a `<svc_name>.htpasswd` at `dp__nginx_config_dir` (`/opt/non-docker-nginx` by default) that will be mounted at `/etc/nginx/.htpasswd` within the nginx proxy container. You can use the `.htpasswd` file in your custom nginx configuration if needed.
 
@@ -74,7 +74,7 @@ Role Variables
       auth_basic: "Restricted";
       auth_basic_user_file: /etc/nginx/.htpasswd;
       # dp__network_gateway_ip is a custom fact from this role
-      proxy_pass http://{{ dp__network_gateway_ip }}:{{ upstream.port }};
+      proxy_pass http://{{ dp__network_gateway }}:{{ upstream.port }};
     }
   }
   ```
