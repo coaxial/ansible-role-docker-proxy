@@ -1,0 +1,19 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  vars:
+    dp__testing: true
+    dp__le_enable: true
+    dp__le_email: test@example.org
+    dp__le_test: true
+    dp__upstream:
+      - port: 1500
+        svc_name: webapp
+        vhost: test.example.org
+        is_container: false
+        bauth_enable: true
+        bauth_user: testuser
+        bauth_passwd: testpass
+  roles:
+    - role: ansible-role-docker-proxy
