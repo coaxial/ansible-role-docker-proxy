@@ -92,12 +92,6 @@ Role Variables
   ---|---|---
   none, must be set if `dp__le_enable` is `true`| any valid email address| Used by Let's Encrypt to warn of expiring certificates should the auto-renewal fail, and for account recovery.
 
-- ### `dp__le_timeout`
-
-  Default value | Possible values | Purpose | Notes
-  ---|---|---|---
-  `300` | Any integer | The lets encrypt container needs to generate its DH params before it listens to upstream servers restarts and starts getting certs for them. This is the amount of time it takes to generate the DH params and for while the playbook's execution stops after starting the lets encrypt container. | It's possible this value is too high, so it can be overridden. The value is the number of seconds to wait for the lets encrypt container to start. For example, 120 seconds is usually enough on a 5$ DigitalOcean droplet.
-
 - ### `dp__nginx_config_dir`
 
   Default value | Possible values | Purpose | Notes
