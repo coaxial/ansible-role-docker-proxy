@@ -112,7 +112,6 @@ passed in as parameters) is always nice for users too:
     - hosts: servers
       become: true
       vars:
-        dp__le_timeout: 120
         dp__le_email: test@example.org
         dp__upstream:
           - port: 5000
