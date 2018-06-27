@@ -2,7 +2,7 @@ server {
   listen 80;
 
   location /hello/ {
-    proxy_pass http://{{ _dp__docker_gw_ip.stdout }}:{{ upstream.port }};
+    proxy_pass http://{{ dp__network_name }}:{{ upstream.port }};
   }
 
   location / {
