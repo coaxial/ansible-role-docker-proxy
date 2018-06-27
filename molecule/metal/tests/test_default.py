@@ -13,11 +13,20 @@ def test_firewall(host):
 
 
 def test_custom_net_firewall(host):
+    subnet = host.check_output(
+        'docker inspect upstreams -f '
+        "{% raw -%}'{{range .IPAM.Config}}{{.Subnet}}{{end}}'{% endraw -%}"
+    )
+    gateway = host.check_output(
+        'docker inspect upstreams -f '
+        "{% raw -%}'{{range .IPAM.Config}}{{.Gateway}}{{end}}'{% endraw -%}"
+    )
     r = host.iptables.rules('filter', 'INPUT')
 
     assert (
-        "-A INPUT -s 172.18.0.0/16 -d 172.18.0.1/32 -p tcp -m tcp "
+        "-A INPUT -s %s -d %s/32 -p tcp -m tcp "
         "--dport 1500 -j ACCEPT"
+        % (subnet, gateway)
     ) in r
 
 
