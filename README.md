@@ -55,7 +55,7 @@ Role Variables
 
   To protect a "metal" service with basic auth, set `bauth_enable` to `true`, define the username as `bauth_user` and the password as `bauth_passwd`. This will generate a `<svc_name>.htpasswd` at `dp__nginx_config_dir` (`/opt/non-docker-nginx` by default) that will be mounted at `/etc/nginx/.htpasswd` within the nginx proxy container. You can use the `.htpasswd` file in your custom nginx configuration if needed.
 
-  If you would like to protect a containerized service with basic auth, I suggest creating a synthetic "metal" service with a custom nginx server config file that will proxy requests to the containerized service. You will be able to enable basic auth with a custom server config, and `proxy_pass` to localhost:container_port. For example, if I want to run `mywebapp` in a container on port 5000, I will create an upstream as follows:
+  If you would like to protect a containerized service with basic auth, I suggest creating a synthetic "metal" service with a custom nginx server config file that will proxy requests to the containerized service. You will be able to enable basic auth with a custom server config, and `proxy_pass` to localhost:container_port. For example, if I want to proxy `mywebapp` in a container on port 5000, I will create an upstream as follows:
   ```yaml
   - port: 5000
     svc_name: mywebapp
@@ -64,19 +64,6 @@ Role Variables
     bauth_enable: true
     bauth_user: user
     bath_passwd: passwd
-  ```
-  and create `templates/mywebapp.conf.j2` to go with it:
-  ```nginx
-  server {
-    listen 80; # always port 80, don't change it
-
-    location / {
-      auth_basic: "Restricted";
-      auth_basic_user_file: /etc/nginx/.htpasswd;
-      # dp__network_gateway_ip is a custom fact from this role
-      proxy_pass http://{{ dp__network_gateway }}:{{ upstream.port }};
-    }
-  }
   ```
 
   For examples on how to use a custom server config file and basic auth, see `molecule/{custom,bauth}/playbook.yml`.
