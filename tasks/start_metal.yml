@@ -12,10 +12,6 @@
   set_fact:
     dp__network_gateway_ip: "{{ _dp__docker_gw_ip.stdout }}"
 
-- name: debug
-  debug:
-    msg: "{{ docker }}"
-
 - name: Create directory for nginx config files if needed
   # will only create the dir if there is a non-containerized upstream service
   # defined
