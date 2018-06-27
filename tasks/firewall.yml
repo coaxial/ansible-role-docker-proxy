@@ -10,7 +10,6 @@
     chain: DOCKER-USER
     protocol: tcp
     in_interface: "{{ ansible_default_ipv4.interface }}"
-    destination: "{{ dp__network_gateway_ip }}"
     destination_port: "{{ item.port }}"
     jump: DROP
   notify: persist iptables
@@ -37,6 +36,7 @@
     protocol: tcp
     in_interface: docker0
     source: "{{ item.stdout }}"
+    destination: "{{ dp__network_gateway_ip }}"
     destination_port: "{{ item.upstream.port }}"
     jump: ACCEPT
   notify: persist iptables

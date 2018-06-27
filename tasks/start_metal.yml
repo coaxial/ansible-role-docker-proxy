@@ -10,7 +10,7 @@
 
 - name: Save gateway IP for custom network as fact
   set_fact:
-    dp__network_gateway_ip: "{{ _dp__docker_gw_ip.results[0].stdout }}"
+    dp__network_gateway_ip: "{{ _dp__docker_gw_ip.stdout }}"
 
 - name: debug
   debug:
