@@ -43,10 +43,10 @@
   when: dp__le_enable
   register: le_cont_start
 
-- name: Wait for LE companion to generate DH parameters (takes a long time, several minutes)
-  wait_for:
-    timeout: "{{ dp__le_timeout }}"
-  when: dp__le_enable and not dp__testing and le_cont_start.changed
-  # This is fine and doesn't need to be a handler
-  tags:
-    - skip_ansible_lint
+# - name: Wait for LE companion to generate DH parameters (takes a long time, several minutes)
+#   wait_for:
+#     timeout: "{{ dp__le_timeout }}"
+#   when: dp__le_enable and not dp__testing and le_cont_start.changed
+#   # This is fine and doesn't need to be a handler
+#   tags:
+#     - skip_ansible_lint
