@@ -12,6 +12,15 @@ def test_firewall(host):
     assert "-A DOCKER-USER -i eth0 -p tcp -m tcp --dport 1500 -j DROP" in r
 
 
+def test_custom_net_firewall(host):
+    r = host.iptables.rules('filter', 'INPUT')
+
+    assert (
+        "-A INPUT -s 172.18.0.0/16 -d 172.18.0.1/32 -p tcp -m tcp "
+        "--dport 1500 -j ACCEPT"
+    ) in r
+
+
 def test_compose_extends(host):
     dc = host.file('/opt/webapp/docker-compose.proxy.yml')
 
